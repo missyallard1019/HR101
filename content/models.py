@@ -8,22 +8,26 @@ class Chapter(models.Model):
 	transcript = models.TextField(max_length=1000)
 	#ext_links = ????
 	
-#class Authors(models.Model) ???
-#class Keywords ???
+class Author(models.Model):
+	first_name: models.CharField(max_length=30)
+	last_name: models.CharField(max_length=30)
+	
+class Keyword(models.Model):
+	keyword = models.CharField(max_length=30)
 	
 class Article(models.Model):
 	title = models.CharField(max_length=60, unique=True)
-	authors = models.CharField(max_length=140)
+	authors = models.ManyToManyField(Author)
 	embed = models.CharField(max_length=100)
 	summary = models.TextField(max_length=500)
-	#keywords = ???
+	keywords = models.ManyToManyField(Keyword)
 	
 class Video(models.Model):
 	title = models.CharField(max_length=60, unique=True)
 	authors = models.CharField(max_length=140)
 	embed = models.CharField(max_length=100)
 	summary = models.TextField(max_length=500)
-	#keywords = ???
+	keywords = models.ManyToManyField(Keyword)
 
 class Review(models.Model):
 	chapter = models.ForeignKey(Chapter, related_name='review', on_delete=models.DO_NOTHING)

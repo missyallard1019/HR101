@@ -17,7 +17,7 @@ class Board(models.Model):
 
 	
 class Topic(models.Model):
-	subject = models.CharField(max_length=255)
+	subject = models.CharField(max_length=140)
 	last_updated = models.DateTimeField(auto_now_add=True)
 	board = models.ForeignKey(Board, related_name='topics', on_delete=models.DO_NOTHING)
 	starter = models.ForeignKey(User, related_name='topics', on_delete=models.DO_NOTHING)
@@ -38,3 +38,22 @@ class Post(models.Model):
 	def __str__(self):
 		truncated_message = Truncator(self.message)
 		return truncated_message.chars(30)
+	
+class Direct(models.Model):
+	message = models.TextField(max_length=4000)
+	subject = models.CharField(max_length=140)
+	sent_at = models.DateTimeField(auto_now_add=True)
+	sent_by = models.ForeignKey(User, related_name='outbox', on_delete=models.DO_NOTHING)
+	sent_to = models.ForeignKey(User, related_name='inbox', on_delete=models.DO_NOTHING)
+	
+	def __str__(self):
+		truncated_message = Truncator(self.message)
+		return truncated_message.chars(30)
+	
+class Group(models.Model):
+	name = models.CharField(max_length=30, unique=True)
+	description = models.CharField(max_length=100)
+	#members - TODO
+	
+	def __str__(self):
+		return self.name
