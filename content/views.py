@@ -1,5 +1,16 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from .models import Chapter
 
 def home(request):
-	return HttpResponse('Heart Recovery 101')
+	return render(request, 'home.html')
+
+def education(request):
+	chapters = Chapter.objects.all()
+	
+	return render(request, 'education.html', {'chapters': chapters})
+
+def course(request):
+	chapters = Chapter.objects.all()
+	
+	return render(request, 'course.html', {'chapters': chapters})
+

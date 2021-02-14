@@ -5,8 +5,10 @@ class Chapter(models.Model):
 	title = models.CharField(max_length=60, unique=True)
 	tag_line = models.CharField(max_length=140)
 	video_embed = models.CharField(max_length=100)
-	transcript = models.TextField(max_length=1000)
-	#ext_links = ????
+	transcript = models.CharField(max_length=1000)
+	
+	def __str__(self):
+		return self.title
 	
 class Author(models.Model):
 	first_name: models.CharField(max_length=30)

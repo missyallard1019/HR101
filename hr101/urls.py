@@ -18,8 +18,13 @@ from django.urls import path
 from django.conf.urls import url
 
 from content import views
+from discussions import views as discussions_views
+from accounts import views as accounts_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 	path('', views.home, name='home'),
+	path('community/', discussions_views.discussions, name='community'),
+	path('education/', views.education, name='education'),
+	path('course/', views.course, name='course'),
 ]
