@@ -3,6 +3,9 @@ purge: [],
 darkMode: false, // or 'media' or 'class'
 theme: {
 	extend: {
+		outline: {
+			black: '2px solid #000000',
+		},
 		colors: {
 			'brand-blue': {
 				'light': '#4A7195',

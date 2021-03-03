@@ -1,0 +1,43 @@
+{% load widget_tweaks %}
+
+{% if form.non_field_errors %}
+	<div class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">
+		{% for error in form.non_field_errors %}
+			<p {% if forloop.last %} class="mb-0" {% endif %}>{{ error }}</p>
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% for field in form %}
+	<div class="flex flex-wrap items-center content-center justify-center items-bottom p-2 my-5">
+		<div class="flex self-center m-2 text-md">
+			{{ field.label_tag }}
+		</div>
+
+		{% if form.is_bound %}
+			{% if field.errors %}
+				<div class="flex justify-start">
+					{% render_field field class="text-sm sm:text-base relative w-auto border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none py-2 pr-2 pl-12 border-red-500" %}
+					{% for error in field.errors %}
+						<span class="flex items-center font-medium tracking-wide text-red-500 text-xs mt-1 ml-1">{{ error }}</span>
+					{% endfor %}
+				</div>
+			{% else %}
+				<div class="flex justify-start">
+					{% render_field field class="text-sm sm:text-base relative w-auto border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none py-2 pr-2 pl-12 border-gray-300" %}
+				</div>
+			{% endif %}
+		
+		{% else %}
+			<div class="flex justify-start">
+				{% render_field field class="text-sm sm:text-base relative w-auto border rounded placeholder-gray-400 focus:border-indigo-400 focus:outline-none py-2 pr-2 pl-12 border-gray-300" %}
+			</div>
+		{% endif %}
+		
+		{% if field.help_text %}
+			<div class="flex justify-start">
+				<span class="font-medium tracking-wide text-gray-500 text-xs mt-1 ml-1">{{ field.help_text|safe }}</span>
+			</div>
+		{% endif %}
+	</div>
+{% endfor %}

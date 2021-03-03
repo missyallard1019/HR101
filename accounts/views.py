@@ -1,5 +1,6 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 
 from .forms import SignUpForm
 
@@ -14,3 +15,8 @@ def signup(request):
 	else:
 		form = SignUpForm()
 	return render(request, 'signup.html', {'form': form})
+
+def profile(request):
+	user = User.objects.all()
+	
+	return render(request, 'profile.html', {'user': user})
