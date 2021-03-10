@@ -22,22 +22,22 @@
 
 {% block content %}
 	<div class="flex justify-center">
-		<div class="p-4 m-4 rounded shadow bg-blue-50 w-2/3 h-auto">
+		<div class="p-4 m-4 rounded shadow bg-blue-pale w-2/3 h-auto">
 			<strong class="flex text-xl justify-center">Sign in to your HR101 account</strong>
 			<form method="post" novalidate>
 				{% csrf_token %}
 				<input type="hidden" name="next" value="{{ next }}">
 				{% include 'includes/form.html' %}
 				<div class="flex justify-center">
-					<button type="submit" class="flex justify-center items-center rounded-md shadow w-42 h-8 px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">Sign in</button>
+					<button type="submit" class="flex justify-center items-center rounded-md shadow w-42 h-8 px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-royal hover:bg-blue-navy md:py-4 md:text-lg md:px-10">Sign in</button>
 				</div>
 			</form>
 			<br>
 			<div class="flex justify-center text-sm text-gray-500">
-				<p>New to HR101? <strong class="text-blue-500"><a href="{% url 'signup' %}"> Sign up here!</a></strong></p>
+				<p>New to HR101? <strong class="text-blue-royal"><a href="{% url 'signup' %}"> Sign up here!</a></strong></p>
 			</div>
 			<br>
-			<div class="flex justify-center text-sm text-blue-500">
+			<div class="flex justify-center text-sm text-blue-royal">
 				<a href="{% url 'password_reset' %}">Forgot your password?</a>
 			</div>
 		</div>

@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load widget_tweaks %}
+
 {% block title %}HR101 - Community{% endblock %}
 
 {% block navlinks1 %}
@@ -19,29 +21,113 @@
 {% endblock %}
 
 {% block content %}
-	<p class="h-64 p-10">COMMUNITY PAGE GOES HERE</p>
-	<br>
-	<div class="flex justify-center w-full">
-		<div>
-			<p class="text-xl p-10">DISCUSSION BOARDS</p>
+	<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
+		<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
+			<div class="text-center">
+				<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Join the Conversation</p>
+				<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.</p>
+			</div>
+			<div><br/></div>
+			</div>
+			<div class="grid grid-cols-3 gap-5 text-blue-navy">
+				<a href="#"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
+					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" clip-rule="evenodd"></path></svg>
+					<p class="text-sm text-blue-navy font-semibold mt-4">Explore the discussion boards</p>
+				</div></a>
+				<a href="#"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
+					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
+					<p class="text-sm text-blue-navy font-semibold mt-4">Join a Group</p>
+				</div></a>
+				<a href="#"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
+					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+					<p class="text-sm text-blue-navy font-semibold mt-4">Send a direct message to our team of experts</p>
+				</div></a>
+			</div>
+		</div>
+		
+		<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
+			<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
+				<div class="text-center">
+					<p class="m-2 text-3xl leading-8 font-extrabold tracking-tight text-abiomed-teal sm:text-3xl">Discussions</p>
+				</div>
+				<div class="text-center">
+					<p class="mt-2 mb-4 text-lg leading-8 tracking-tight text-gray-500 sm:text-lg">Use the sliders to browse discussion boards</p>
+				</div>
+			</div>
 
 			{% for board in boards %}
-				<div class="bg-blue-100 h-auto w-full m-1 p-5 rounded-lg shadow-lg text=lg justify-center">
-					{{ board.name }} <br>
-					<small>{{ board.description }}</small>
+				<div class="bg-gradient-to-r from-abiomed-teal via-abiomed-teal-light to-abiomed-teal h-auto w-full m-1 p-5 rounded-lg shadow-lg text-white text=3xl justify-center">
+					<div class="text-2xl"><strong>{{ board.name }}</strong></div>
+					
+					<p class="text-lg text-shadow-md">{{ board.description }}</p>
+					<p>{{ board.topics.count }} Topics</p>
 					<div>
-						<p>X Topics</p>
 						{% for topic in board.topics.all %}
-							<div>
-								<strong>"{{ topic.subject }}"</strong>
-								by {{ topic.starter.username }} at {{ topic.last_updated }}
+							<div class="bg-abiomed-teal-pale h-auto w-full m-1 p-2 rounded-lg text-gray-900 text=lg justify-center">
+
+									{% for post in topic.posts.all %}
+										{% if forloop.first %}
+											<div class="border-2 border-abiomed-teal rounded-lg p-2 m-1">
+												<div class="flex text-black">
+													<svg class="w-6 h-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+													<p><strong class="text-xl">"{{ topic.subject }}"</strong> by <strong> {{ topic.starter.username }}</strong> at {{ topic.last_updated }}</p>
+												</div>
+												<div>
+													<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg">
+														{{ post.message }}
+													</div>
+													<small>{{ topic.posts.count }} Comments</small>
+												</div>
+											</div>
+										{% endif %}
+										<div class="flex mx-6">
+											<svg class="w-6 h-6 mx-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+										</div>
+										<div class="mx-6">
+											<strong>{{ post.created_by.username }}</strong>
+											<small>{{ post.created_at }}</small>
+											<div class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
+												{{ post.message }}
+												<br>
+												{% if post.created_by == user %}
+													<div class="flex justify-right">
+														<div class=" flex justify-right rounded-md shadow w-14 h-8 items-center mt-4 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4"><a href="#">Edit</a></div>
+													</div>
+												{% endif %}
+											</div>
+										</div>
+									{% endfor %}
+									{% if user.is_authenticated %}
+										<form method="post" novalidate>
+											{% csrf_token %}
+											<div class="w-auto">
+												{% include 'includes/form.html' %}
+												<input type="hidden" name='topic_id' id="topic_id" value="{{ topic.id }}" />
+												<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Reply</button>
+											</div>
+										</form>
+									{% else %}
+										<p>To post a reply, please <strong><a href="{% url 'login' %}">Log In</a></strong></p>
+									{% endif %}
+								</div>
 							</div>
+						
 						{% endfor %}
-						<div class="rounded-md shadow w-48 h-8 flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10"><a href="{% url 'new_topic' board.pk %}">New Topic</a></div>
+						<div class="flex justify-center">
+							<div class="rounded-md shadow w-32 h-8 flex items-center justify-center mx-22 px-2 py-3 border border-abiomed-teal text-base font-medium rounded-md text-white bg-abiomed-teal-dark hover:bg-blue-pale md:py-3 md:text-lg md:px-2"><a href="{% url 'new_topic' board.pk %}">New Topic</a></div>
+						</div>
 					</div>
 				</div>
 				<br>
 			{% endfor %}
+			<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
+				<div class="text-center">
+					<p class="m-2 text-3xl leading-8 font-extrabold tracking-tight text-abiomed-teal sm:text-3xl">Groups</p>
+				</div>
+				<div class="text-center">
+					<p class="mt-2 mb-4 text-lg leading-8 tracking-tight text-gray-500 sm:text-lg">Use the sliders to browse specific support or interest groups</p>
+				</div>
+			</div>
 		</div>
 	</div>
 {% endblock %}

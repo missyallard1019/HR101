@@ -31,7 +31,8 @@ urlpatterns = [
 	path('community/', discussions_views.discussions, name='community'),
 	path('education/', views.education, name='education'),
 	path('course/', views.course, name='course'),
-	path('profile/', accounts_views.profile, name='profile'),
+	path('course2/', views.course2, name='course2'),
+	path('profile/', discussions_views.profile, name='profile'),
 	path('community/<pk>/new/', discussions_views.new_topic, name='new_topic'),
 	
 	path('reset/', 

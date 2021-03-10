@@ -22,13 +22,13 @@
 
 {% block content %}
 	<div class="flex justify-center">
-		<div class="flex justify-center p-4 m-4 rounded shadow bg-blue-50 w-2/3 h-auto">
+		<div class="flex justify-center p-4 m-4 rounded shadow bg-blue-pale w-2/3 h-auto">
 			<strong class="text-lg">Create a new topic in the {{ board.name }} discussion: </p>
 			<div class="p-10 justify-center">
 				<form method="post" novalidate>
 					{% csrf_token %}
 					{% include 'includes/form.html' %}
-					<button type="submit" class="rounded-md shadow w-12 h-8 flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-500 hover:bg-indigo-700 md:py-4 md:text-lg md:px-10">Post</button>
+					<button type="submit" class="rounded-md shadow w-12 h-8 flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-royal hover:bg-blue-navy md:py-4 md:text-lg md:px-10">Post</button>
 				</form>
 			</div>
 		</div>
