@@ -14,36 +14,42 @@
      	<div style="display:none;">{{ field }}</div>
 
  	{% else %}
-		<div class="flex flex-wrap items-center content-center justify-center items-bottom p-2 my-5">
-			<div class="flex justify-start self-center m-2 text-md">
+		<div class="grid grid-flow-col justify-start p-2 my-5">
+			<div class="w-64 flex justify-end self-top m-2 text-md font-semibold">
 				{{ field.label_tag }}
 			</div>
+				
+			<div>
+				{% if form.is_bound %}
+					{% if field.errors %}
+						<div class="justify-start">
+							{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-12 border-red" %}
+							{% for error in field.errors %}
+								<p class="font-medium tracking-wide text-red text-xs mt-1 ml-1">{{ error }}</p>
+							{% endfor %}
+						</div>
+						
+					{% else %}
+						<div class="justify-start">
+							{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-12 border-gray-300" %}
+						</div>
+						
+					{% endif %}
 
-			{% if form.is_bound %}
-				{% if field.errors %}
-					<div class="flex justify-start">
-						{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-12 border-red" %}
-						{% for error in field.errors %}
-							<p class="flex items-center font-medium tracking-wide text-red text-xs mt-1 ml-1">{{ error }}</p>
-						{% endfor %}
-					</div>
 				{% else %}
 					<div class="flex justify-start">
 						{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-12 border-gray-300" %}
 					</div>
+					
 				{% endif %}
 
-			{% else %}
-				<div class="flex justify-start">
-					{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-12 border-gray-300" %}
-				</div>
-			{% endif %}
-
-			{% if field.help_text %}
-				<div class="flex justify-start">
-					<p class="font-medium tracking-wide text-gray-500 text-xs mt-1 ml-1">{{ field.help_text|safe }}</p>
-				</div>
-			{% endif %}
+				{% if field.help_text %}
+					<div class="justify-start">
+						<p class="font-medium tracking-wide text-gray-500 text-xs mt-1 ml-1">{{ field.help_text|safe }}</p>
+					</div>
+				{% endif %}
+			</div>
+			
 		{% endif %}
 	</div>
 {% endfor %}

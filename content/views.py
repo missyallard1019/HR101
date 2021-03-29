@@ -1,21 +1,30 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import Chapter, Review
+from .models import Chapter, Review, Progress
 
 def home(request):
 	return render(request, 'home.html')
 
 def education(request):
-	chapters = Chapter.objects.all()
+	chapter = Chapter.objects.get(index=0)
 	
-	return render(request, 'education.html', {'chapters': chapters})
+	if request.user.is_authenticated:
+		progress = Progress.objects.get(user=request.user)
+	else:
+		progress = Progress.objects.get(pk=1)
+	
+	return render(request, 'education.html', {'chapter': chapter, 'progress': progress})
 
 @login_required
-def course(request):
-	chapters = Chapter.objects.all()
-	reviews = Review.objects.all()
+def course(request, index):
+	if int(index) < 1:
+		return redirect('education')
 	
-	return render(request, 'course.html', {'chapters': chapters, 'reviews': reviews})
+	chapter = get_object_or_404(Chapter, index=index)
+	reviews = Review.objects.all()
+	progress = Progress.objects.get(user=request.user)
+	
+	return render(request, 'course.html', {'chapter': chapter, 'reviews': reviews, 'progress': progress})
 
 @login_required
 def course2(request):

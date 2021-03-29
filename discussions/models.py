@@ -49,6 +49,9 @@ class Profile(models.Model):
 	location = models.CharField(max_length=30, blank=True)
 	bio = models.TextField(max_length=500, blank=True)
 	
+	def __str__(self):
+		return self.user.username
+	
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
 	if created:

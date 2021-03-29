@@ -4,6 +4,11 @@
 		<meta charset="utf-8">
 		<title>Heart Recovery 101 - Home</title>
 		<link rel="stylesheet" href="{% static 'build/tailwind-output.css' %}">
+		<script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/scripts.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/discussions.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/education.js' %}"></script>
+		
 	</head>
 
 	<body>
@@ -15,12 +20,12 @@
       				</svg>
 
 					<div class="relative pt-6 px-4 sm:px-6 lg:px-8">
-						<nav class="relative flex items-center justify-between justify-start" aria-label="Global">
-						<div class="flex items-center flex-grow flex-shrink-0 lg:flex-grow-0">
-							<div class="flex items-center justify-between w-full md:w-auto">
+						<nav class="relative flex items-center justify-start" aria-label="Global">
+						<div class="flex items-center justify-start flex-grow flex-shrink-0 lg:flex-grow-0">
+							<div class="flex items-center justify-start w-full md:w-auto">
 								<a href="http://www.abiomed.com"><img class="h-8 w-auto sm:h-10" src="../static/images/Abiomed Logo 1920x1082.png"></a>
 									<div class="-mr-2 flex items-center md:hidden">
-										<button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal" id="main-menu" aria-haspopup="true">
+										<button id="open_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal" id="main-menu" aria-haspopup="true">
 											<span class="sr-only">Open main menu</span>
 											<!-- Heroicon name: menu -->
 											<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
@@ -28,23 +33,25 @@
 									</div>
 								</div>
 							</div>
-							<div class="flex hidden md:block md:ml-10 md:pr-4 md:space-x-8">
-								<a href="#" class="font-medium text-gray-500 hover:text-gray-900"><strong>Home</strong></a>
+							<div class="sm:hidden md:block md:ml-4 md:pr-4 md:space-x-6">
+								<div class="flex flex-row justify-start items-center m-2 p-2">
+									<div class="mx-4"><a id="homelink" href="{% url 'home' %}" class="font-medium text-gray-500 hover:text-gray-900">Home</a></div>
 
-								<a href="{% url 'education' %}" class="font-medium text-gray-500 hover:text-gray-900">Education</a>
+									<div class="mx-4"><a id="educationlink" href="{% url 'education' %}" class="font-medium text-gray-500 hover:text-gray-900">Education</a></div>
 
-								<a href="{% url 'community' %}" class="font-medium text-gray-500 hover:text-gray-900">Community</a>
+									<div class="mx-4"><a id="communitylink" href="{% url 'community' %}" class="font-medium text-gray-500 hover:text-gray-900">Community</a></div>
 
-								{% if user.is_authenticated %}
-									<a href="{% url 'logout' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log out</a>
+									{% if user.is_authenticated %}
+										<div class="mx-4 w-24"><a href="{% url 'logout' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log out</a></div>
 
-									<a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-gray-900 hover:bg-gray-50" role="menuitem">{{ user.username }}<svg class="w-6 h-6 text-blue-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg></a>
+										<div class="w-48"><a href="{% url 'profile' %}" class="flex flex-nowrap flex-row px-1 py-2 rounded-md text-base font-medium text-blue-navy hover:text-gray-900" role="menuitem">{{ user.profile.name }}<svg class="w-6 h-6 text-blue-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg></a></div>
 
-								{% else %}
-									<a href="{% url 'login' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log in</a>
+									{% else %}
+										<div class="mx-2 w-24"><a href="{% url 'login' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log in</a></div>
 
-									<a href="{% url 'signup' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Create account</a>
-								{% endif %}
+										<div class="mx-2 w-48"><a href="{% url 'signup' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Create account</a></div>
+									{% endif %}
+								</div>
 							</div>
 						</nav>
 					</div>
@@ -60,14 +67,14 @@
 						  To: "opacity-0 scale-95"
 					  -->
 					
-					<div class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden">
+					<div id="mobile_menu" class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right hidden">
 						<div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
 							<div class="px-5 pt-4 flex items-center justify-between">
 								<div>
 									<img class="h-8 w-auto" src="../static/images/Abiomed Logo 1920x1082.png" alt="Abiomed logo">
 								</div>
 								<div class="-mr-2">
-									<button type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal">
+									<button id="close_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal">
 										<span class="sr-only">Close main menu</span>
 										<!-- Heroicon name: x -->
 										<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
@@ -76,17 +83,17 @@
 							</div>
 							<div role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
 								<div class="px-2 pt-2 pb-3 space-y-1" role="none">
-									<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem"><strong>Home</strong></a>
+									<a id="homelink2" href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Home</a>
 									
-									<a href="{% url 'education' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Education</a>
+									<a id="educationlink2" href="{% url 'education' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Education</a>
 									
-									<a href="{% url 'community' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Community</a>
+									<a id="communitylink2" href="{% url 'community' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Community</a>
 								</div>
 								<div role="none">
 									{% if user.is_authenticated %}
-										<a href="#" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log Out</a>
+										<a href="{% url 'logout' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log Out</a>
 									
-										<a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-blue-royal hover:bg-gray-50" role="menuitem">{{ user.username }}<svg class="w-6 h-6 text-blue-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg></a>
+										<a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-blue-royal hover:bg-gray-50" role="menuitem">{{ user.profile.name }}<svg class="w-6 h-6 text-blue-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg></a>
 									{% else %}
 										<a href="{% url 'login' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log In</a>
 									
@@ -97,7 +104,7 @@
 						</div>
 					</div>
 					
-					<main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+					<main id="home" class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
 						<div class="sm:text-center lg:text-left">
 							<h1 class="text-4xl tracking-tight font-extrabold text-blue-navy sm:text-5xl md:text-6xl">
 								<span class="block xl:inline">Heart Recovery 101</span>
@@ -114,28 +121,28 @@
 				</div>
 			</div>
 			<div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2">
-			<img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="../static/images/HR101-AnimationStyle_v30.jpg" alt="Illustration of human heart">
+				<img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full" src="../static/images/HR101-AnimationStyle_v30.jpg" alt="Illustration of human heart">
 			</div>
 		</div>
 		
 		<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
-			<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
+			<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
 				<div class="text-center">
 			  		<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Patient-focused education</p>
-			  		<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.</p>
+			  		<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Heart Recovery 101 is a place for patients, family, and caregivers to learn about heart disease and recovery. Our free online course covers the basics, and our unique community can help you with any other questions you might have. Get started today!</p>
 				</div>
 				<div><br/></div>
 			</div>
 			<div class="grid grid-cols-3 gap-5 text-blue-navy">
-				<a href="{% url 'education' %}"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
-					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2h-1.528A6 6 0 004 9.528V4z"></path><path fill-rule="evenodd" d="M8 10a4 4 0 00-3.446 6.032l-1.261 1.26a1 1 0 101.414 1.415l1.261-1.261A4 4 0 108 10zm-2 4a2 2 0 114 0 2 2 0 01-4 0z" clip-rule="evenodd"></path></svg>
-					<p class="text-sm text-blue-navy font-semibold mt-4">Learn more about Heart Recovery</p>
+				<a href="{% url 'signup' %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
+					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg>
+					<p class="text-sm text-blue-navy font-semibold mt-4">Create a profile and share your story</p>
 				</div></a>
-				<a href="{% url 'course' %}"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
+				<a href="{% url 'course' pk=1 %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
 					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path></svg>
-					<p class="text-sm text-blue-navy font-semibold mt-4">Become a certified Patient Advocate</p>
+					<p class="text-sm text-blue-navy font-semibold mt-4">Take the course and become a certified Patient Advocate</p>
 				</div></a>
-				<a href="{% url 'community' %}"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
+				<a href="{% url 'community' %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
 					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
 					<p class="text-sm text-blue-navy font-semibold mt-4">Join the online community of patients and providers</p>
 				</div></a>
@@ -143,11 +150,26 @@
 		</div>
 			
 		<div class="absolute inset-x-0 p-2 bg-gradient-to-r from-blue-navy via-blue-light to-blue-navy mt-4 p-8">
-			<p class="text-white">Footer</p>
-			<div class="flex items-center justify-center">
-				<img src="../static/images/AbioLogo_TAGLINE_White.png" class="w-auto h-8">
+			<div class="grid grid-cols-3 gap-5">
+				<div class="flex flex-col w-36">
+					<img class="pb-2" src="../static/images/AbioLogo_TAGLINE_White.png" />
+					<p class="text-white text-left text-xs ml-4"><span>&#169;</span>2021 Abiomed, Inc.</p>
+					<p class="text-white text-left text-xs ml-4">All rights reserved</p>
+				</div>
+				<div>
+					<p class="text-white text-left underline"><strong>Site Map</strong></p>
+					<p class="text-white text-left text-xs"><a href="{% url 'home' %}">Home</a></p>
+					<p class="text-white text-left text-xs"><a href="{% url 'education' %}">Education</a></p>
+					<p class="text-white text-left text-xs"><a href="{% url 'community' %}">Community</a></p>
+				</div>		
+				<div>
+					<p class="text-white text-left underline"><strong>Company</strong></p>
+					<p class="text-white text-left text-xs"><a href="http://www.abiomed.com">Abiomed.com</a></p>
+					<p class="text-white text-left text-xs"><a href="http://www.impella.com">Impella.com</a></p>
+					<p class="text-white text-left text-xs"><a href="http://www.heartrecovery.com">HeartRecovery.com</a></p>
+					<p class="text-white text-left text-xs"><a href="http://www.camppci.org">CAMPpci.org</a></p>
+				</div>		
 			</div>
-			
 		</div>
 			
 	</body>

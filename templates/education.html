@@ -2,55 +2,51 @@
 
 {% block title %}HR101 - Education{% endblock %}
 
-{% block navlinks1 %}
-	<a href="{% url 'home' %}" class="font-medium text-gray-500 hover:text-gray-900">Home</a>
-
-	<a href="#" class="font-medium text-gray-500 hover:text-gray-900">Education</a>
-
-	<a href="{% url 'community' %}" class="font-medium text-gray-500 hover:text-gray-900">Community</a>
-{% endblock %}
-
-{% block navlinks2 %}
-	<a href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Home</a>
-
-	<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Education</a>
-
-	<a href="{% url 'community' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Company</a>
-{% endblock %}
-
 {% block content %}
-	<main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-		{% for chapter in chapters %}
-			{% if chapter.index == 0 %}
-				<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
-					<div class="text-center">
-						<h1 class="text-4xl tracking-tight font-extrabold text-blue-navy sm:text-2xl md:text-4xl">
-							<span class="block xl:inline">
-								{{ chapter.title }}
-							</span>
-						</h1>
-					</div>
-						<span class="block text-teal text-xl pt-2 font-semibold xl:inline">{{ chapter.tag_line }}</span>
-					</div>
-					<div class="float justify-right p-6">
-						{{ chapter.video_embed|safe }}
-						<div class="mt-2 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
-							<div class="rounded-md shadow">
-								<a href="{% url 'course' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Begin the Course!</a>
-							</div>
+	<main id="education" class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+		<div class="lg:grid lg:grid-cols-2">
+			<div class="divide-y-2 divide-currentColor py-12 sm:divide-w-12 sm:mx-18 sm:text-center md:divide-w-24 lg:mx-6">
+				<div class="py-2 sm:text-center lg:text-left">
+					<h1 class="text-4xl tracking-tight font-extrabold text-blue-navy sm:text-2xl md:text-4xl">
+						<span class="block xl:inline">
+							{{ chapter.title }}
+						</span>
+					</h1>
+				</div>
+				<div class="sm:text-center lg:text-left">
+					<span class="block tex-gray-900 text-xl pt-2 font-semibold xl:inline">{{ chapter.tag_line }}</span>
+				</div>
+			</div>
+			<div class="flex flex-col items-right justify-right p-6">
+				<div id="video_frame" class="flex sm:justify-center lg:justify-end py-4">
+					{{ chapter.video_embed|safe }}
+				</div>
+
+				{% if user.is_authenticated %}
+					<div class="flex sm:justify-center lg:justify-end">
+						<div class="rounded-md shadow">
+							<a href="{% url 'course' progress.current_chapter.index %}" class="w-full flex items-center py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Begin the Course!</a>
 						</div>
 					</div>
-			{% endif %}
-		{% endfor %}
-	</main>
+				{% else %}
+					<div class="flex sm:justify-center lg:justify-end">
+						<div class="rounded-md shadow">
+							<a href="{% url 'course' index=1 %}" class="w-full flex items-center py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Begin the Course!</a>
+						</div>
+					</div>
+				{% endif %}
+			</div>
 
+		</main>
+
+	<!--Browse Resources features --ON HOLD
 	<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
-			<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
-				<div class="text-center">
-			  		<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Browse Educational Resources</p>
-			  		<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.</p>
-				</div>
-				<div><br/></div>
+		<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
+			<div class="text-center">
+				<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Browse Educational Resources</p>
+				<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.</p>
+			</div>
+			<div><br/></div>
 			</div>
 			<div class="grid grid-cols-3 gap-5 text-blue-navy">
 				<a href="#"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
@@ -66,28 +62,28 @@
 					<p class="text-sm text-blue-navy font-semibold mt-4">Browse the Community Discussion Boards</p>
 				</div></a>
 			</div>
-		</div>
+		</div>-->
 
 		<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
-			<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
+			<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
 				<div class="text-center">
 			  		<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Take a Deeper Dive</p>
-			  		<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.</p>
+			  		<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Heart Recovery 101 is a patient-focused course that covers the basics of heart disease and recovery. If you'd like to find more in-depth or specialized information, whether for patients or industry professionals, check out the resources below:.</p>
 				</div>
 				<div><br/></div>
 			</div>
 			<div class="grid grid-cols-3 gap-5 text-blue-navy">
-				<a href="http://www.heartrecovery.com"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
+				<a href="{% url 'community' %}"><div class="bg-white rounded-lg shadow-lg sm:h-64 sm:w-48 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
+					<img src="../static/images/impella.png" class="w-20">
+					<p class="text-sm text-blue-navy font-semibold mt-4">Impella.com - Information for patients who are living with heart disease and are interested in the Impella heart pump</p>
+				</div></a>
+				<a href="http://www.heartrecovery.com"><div class="bg-white rounded-lg shadow-lg sm:h-64 sm:w-48 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
 					<img src="../static/images/logo-abmd-HRcom.svg" class="h-18">
 					<p class="text-sm text-blue-navy font-semibold mt-4">HeartRecovery.com - In-depth information for physisians and medical professionals</p>
 				</div></a>
-				<a href="http://www.camppci.org"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
+				<a href="http://www.camppci.org"><div class="bg-white rounded-lg shadow-lg sm:h-64 sm:w-48 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
 					<img src="../static/images/header-logo-436cb427c0b4afa9e3eb516967cb2fc1.png" class="h-18">
 					<p class="text-sm text-blue-navy font-semibold mt-4">CAMP PCI - An advanced educational platform for practicing cardiologists and surgeons</p>
-				</div></a>
-				<a href="{% url 'community' %}"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
-					<img src="../static/images/impella.png" class="w-20">
-					<p class="text-sm text-blue-navy font-semibold mt-4">Impella.com - Product-specific information for patients who are interested in the Impella heart pump</p>
 				</div></a>
 			</div>
 		</div>

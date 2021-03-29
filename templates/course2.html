@@ -2,46 +2,41 @@
 
 {% block title %}HR101 - Course{% endblock %}
 
-{% block navlinks1 %}
-	<a href="{% url 'home' %}" class="font-medium text-gray-500 hover:text-gray-900">Home</a>
-
-	<a href="{% url 'education' %}" class="font-medium text-gray-500 hover:text-gray-900">Education</a>
-
-	<a href="{% url 'community' %}" class="font-medium text-gray-500 hover:text-gray-900">Community</a>
-{% endblock %}
-
-{% block navlinks2 %}
-	<a href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Home</a>
-
-	<a href="{% url 'education' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Education</a>
-
-	<a href="{% url 'community' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Community</a>
-{% endblock %}
-
 {% block content %}
-	<main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+	<main id="education" class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
 		{% for chapter in chapters %}
 			{% if chapter.index == 2 %}
-				<div class="m-10 max-w-1/3">
-					<h1 class="flex justify-start text-4xl tracking-tight font-extrabold text-blue-navy md:text-4xl">
-						<span>{{ chapter.title }}</span>
-					</h1>
-					<div class="flex justify-start">
-						<span class="block text-teal text-xl pt-2 font-semibold xl:inline">{{ chapter.tag_line }}</span>
-					</div>
-				</div>
-				<div class="flex-wrap justify-end max-w-1/3">
-					{{ chapter.video_embed|safe }}
-					<div class="flex mt-2 sm:mt-8 justify-end">
-						<div class="rounded-md shadow">
-							<a href="{% url 'course' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Back</a>
+				<div class="lg:grid lg:grid-cols-2">
+					<div class="divide-y-2 divide-currentColor py-12 sm:divide-w-12 sm:mx-18 sm:text-center md:divide-w-24 lg:mx-6">
+						<div class="py-2 sm:text-center lg:text-left">
+							<h1 class="text-4xl tracking-tight font-extrabold text-blue-navy sm:text-2xl md:text-4xl">
+								<p class="block xl:inline">
+									Chapter {{ chapter.index }}:
+								</p>
+								<span class="block xl:inline">
+									{{ chapter.title }}
+								</span>
+							</h1>
 						</div>
-						<div class="rounded-md shadow">
-							<a href="{% url 'course2' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Next Chapter</a>
+						<div class="sm:text-center lg:text-left">
+							<span class="block tex-gray-900 text-xl pt-2 font-semibold xl:inline">{{ chapter.tag_line }}</span>
 						</div>
 					</div>
+					<div class="flex flex-col items-right justify-right p-6">
+						<div class="flex sm:justify-center lg:justify-end py-4">
+							{{ chapter.video_embed|safe }}
+						</div>
+						<div class="flex sm:justify-center lg:justify-end">
+							<div class="rounded-md shadow">
+								<a href="{% url 'education' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Back</a>
+							</div>
+							<div class="rounded-md shadow">
+								<a href="{% url 'course2' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Next Chapter</a>
+							</div>
+						</div>
+					</div>
 				</div>
-
+		
 				<div class="flex w-full h-auto justify-center">
 					{% for review in reviews %}
 						{% if review.id == chapter.index %}
