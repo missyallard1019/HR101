@@ -51,6 +51,4 @@ DEFAULT_NEXT_ID = 2
 class Progress(models.Model):
 	user = models.OneToOneField(User, related_name='progress', on_delete=models.CASCADE)
 	current_chapter = models.ForeignKey(Chapter, default=DEFAULT_CURRENT_ID, related_name='current', on_delete=models.DO_NOTHING)
-	previous_chapter = models.ForeignKey(Chapter, default=DEFAULT_PREVIOUS_ID, related_name='previous', on_delete=models.DO_NOTHING)
-	next_chapter = models.ForeignKey(Chapter, default=DEFAULT_NEXT_ID, related_name='next', on_delete=models.DO_NOTHING)
 	

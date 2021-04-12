@@ -37,7 +37,13 @@
 					<p class="m-2 text-3xl leading-8 font-extrabold tracking-tight text-abiomed-teal sm:text-3xl">Discussions</p>
 				</div>
 				<div class="text-center">
-					<p class="mt-2 mb-4 text-lg leading-8 tracking-tight text-gray-500 sm:text-lg">Use the sliders to browse discussion boards</p>
+					<p class="mt-2 mb-4 text-lg leading-8 tracking-tight text-gray-500 sm:text-lg">Browse discussion boards:</p>
+					<div class="flex flex-row justify-center items-center mt-2 mb-4 text-lg leading-8 tracking-tight text-gray-500 sm:text-lg">
+						<form action="{% url 'search_results' %}" method="get" class="flex">
+							<input class="flex border border-abiomed-teal bg-gray-50 rounded p-2" name="q" type="text" placeholder="Search...">
+							<button type="submit" class="flex rounded-md shadow items-center p-2 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal"><svg class="w-6 h-6" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg></button>
+						</form>
+					</div>
 				</div>
 			</div>
 
@@ -100,7 +106,7 @@
 												{% include 'includes/form.html' %}
 												<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
 												<div class="flex justify-center pt-0 pb-4">
-													<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Reply</button>
+													<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Reply</button>
 												</div>
 												
 											</div>
@@ -114,12 +120,13 @@
 
 						{% endfor %}
 						<div class="flex justify-center">
-							<div class="rounded-md shadow w-32 h-8 flex items-center justify-center mx-22 px-2 py-3 border border-abiomed-teal text-base font-medium rounded-md text-white bg-abiomed-teal-dark hover:bg-blue-pale md:py-3 md:text-lg md:px-2"><a href="{% url 'new_topic' board.pk %}">New Topic</a></div>
+							<div class="rounded-md shadow w-32 h-8 flex items-center justify-center mx-22 px-2 py-3 border border-abiomed-teal text-base font-medium text-white bg-abiomed-teal-dark hover:bg-blue-pale md:py-3 md:text-lg md:px-2"><a href="{% url 'new_topic' board.pk %}">New Topic</a></div>
 						</div>
 					</div>
 				</div>
 		{% endfor %}
-		<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
+		<!--Group listings - saving this feature for later
+			<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
 			<div class="text-center">
 				<p class="m-2 text-3xl leading-8 font-extrabold tracking-tight text-abiomed-teal sm:text-3xl">Groups</p>
 			</div>
@@ -127,5 +134,5 @@
 				<p class="mt-2 mb-4 text-lg leading-8 tracking-tight text-gray-500 sm:text-lg">Use the sliders to browse specific support or interest groups</p>
 			</div>
 		</div>
-	</div>
+	</div>-->
 {% endblock %}

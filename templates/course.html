@@ -1,70 +1,135 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}HR101 - Course{% endblock %}
 
 {% block content %}
-	{% if user.is_authenticated %}
-		<main id="education" class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
-			<div class="lg:grid lg:grid-cols-2">
-				<div class="divide-y-2 divide-currentColor py-12 sm:divide-w-12 sm:mx-18 sm:text-center md:divide-w-24 lg:mx-6">
-					<div class="py-2 sm:text-center lg:text-left">
-						<h1 class="text-4xl tracking-tight font-extrabold text-blue-navy sm:text-2xl md:text-4xl">
-							<p class="block xl:inline">
-								Chapter {{ chapter.index }}:
+	<main id="education" class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
+		<div class="lg:grid lg:grid-cols-2">
+			<div class="divide-y-2 divide-currentColor py-12 sm:divide-w-12 sm:mx-18 sm:text-center md:divide-w-24 lg:mx-6">
+				<div class="py-2 sm:text-center lg:text-left">
+					<h1 class="text-4xl tracking-tight font-extrabold text-blue-navy sm:text-2xl md:text-4xl">
+						<p class="block xl:inline">
+							Chapter {{ chapter.index }}:
+						</p>
+						<span class="block xl:inline">
+							{{ chapter.title }}
+						</span>
+					</h1>
+				</div>
+				<div class="sm:text-center lg:text-left">
+					<span class="block tex-gray-900 text-xl pt-2 font-semibold xl:inline">{{ chapter.tag_line }}</span>
+				</div>
+			</div>
+			<div class="flex flex-col items-right justify-right p-6">
+				
+				<!--Placeholder for where video will be inserted through YouTube API in JS-->
+				<section id="video_frame" class="flex sm:justify-center lg:justify-end py-4">
+					<div id="player"></div>
+				</section>
+				
+				<!--Link to previous module. If already at the beginning, link to intro page-->
+				<div class="flex sm:justify-center lg:justify-end">
+					<div class="rounded-md shadow">
+						<a href="{% url 'course' chapter.index|add:'-1' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Back</a>
+					</div>
+					
+					<!--Next button is disabled until the YouTube API indicates the video has been completed. Then the Next button is enabled and links to the mext module. Upon clicking "Next," the user's Progress is saved. Scripts for this section are located at the pottom of the template.-->
+					<div class="rounded-md shadow">
+						{% if progress.current_chapter.index <= chapter.index %}
+							<form method="POST" value="{{ chapter.index }}" novalidate>
+								{% csrf_token %}
+								<input type="hidden" name="current_chapter" value="{{ progress.current_chapter.index|add:'+1' }}"/>
+								<input type="submit" id="submit_next" value="Next Chapter" alt="Watch the video to unlock the next chapter" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal opacity-50 md:py-4 md:text-lg md:px-10" disabled />
+							</form>
+						{% else %}
+							<a href="{% url 'course' chapter.index|add:'+1' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Next Chapter</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--Review Section - text and images recapping the current video-->
+		<div class="flex w-full h-auto justify-center">
+			{% for review in reviews %}
+				{% if review.id == chapter.index %}
+					<div class="bg-gradient-to-r from-abiomed-teal-dark via-abiomed-teal to-abiomed-teal-dark w-2/3 m-5 p-5 rounded-lg shadow-lg">
+						<p class="text-2xl text-center font-extrabold text-white text-shadow-md p-2">Chapter Review</p>
+						<div class="flex p-3">
+							<p class="flex text-white text-shadow text-justify lg:flex-row sm:flex-col">{{ review.first_p }}
+								{% with 'images/'|add:review.first_img as firstimg %}
+									<img class="h-48 w-auto lg:pl-3 md:object-scale-down" src="{% static firstimg %}">
+								{% endwith %}
 							</p>
-							<span class="block xl:inline">
-								{{ chapter.title }}
-							</span>
-						</h1>
-					</div>
-					<div class="sm:text-center lg:text-left">
-						<span class="block tex-gray-900 text-xl pt-2 font-semibold xl:inline">{{ chapter.tag_line }}</span>
-					</div>
-				</div>
-				<div class="flex flex-col items-right justify-right p-6">
-					<div class="flex sm:justify-center lg:justify-end py-4">
-						{{ chapter.video_embed|safe }}
-					</div>
-					<div class="flex sm:justify-center lg:justify-end">
-						<div class="rounded-md shadow">
-							<a href="{% url 'course' chapter.index|add:'-1' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Back</a>
 						</div>
-						<div class="rounded-md shadow">
-							<a href="{% url 'course' chapter.index|add:'+1' %}" id="next_button" class="disabled:opacity-50 w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Next Chapter</a>
+						<div class="flex p-3">
+							<p class="flex text-justify text-white justify-end lg:flex-row sm:flex-col">
+								{% with 'images/'|add:review.second_img as secondimg %}
+									<img class="lg:inline-block sm:hidden h-48 w-auto lg:pr-3 md:object-scale-down" src="{% static secondimg %}">
+								{% endwith %}
+								{{ review.second_p }}
+								{% with 'images/'|add:review.second_img as secondimg %}
+									<img class="lg:hidden sm:inline-block h-48 w-auto lg:pr-3 md:object-scale-down" src="{% static secondimg %}">
+								{% endwith %}
+							</p>
+						</div>
+						<div class="flex p-3">
+							<p class="flex pl-2 text-justify text-white lg:flex-row sm:flex-col">{{ review.third_p }}
+								{% with 'images/'|add:review.third_img as thirdimg %}
+									<img class="h-48 w-auto lg:pl-3 md:object-scale-down" src="{% static thirdimg %}">
+								{% endwith %}
+							</p>
 						</div>
 					</div>
-				</div>
-			</div>
+				{% endif %}
+			{% endfor %}
 
-			<div class="flex w-full h-auto justify-center">
-				{% for review in reviews %}
-					{% if review.id == chapter.index %}
-						<div class="bg-gradient-to-r from-abiomed-teal-dark via-abiomed-teal to-abiomed-teal-dark w-2/3 m-5 p-5 rounded-lg shadow-lg">
-							<p class="text-2xl text-center font-extrabold text-white text-shadow-md p-2">Chapter Review</p>
-							<div class="flex p-3">
-								<p class="flex text-white text-shadow text-justify">{{ review.first_p }}
-								</p>
-								{{ review.first_img|safe }}
-							</div>
-							<div class="flex p-3">
-								{{ review.second_img|safe }}
-								<p class="flex text-justify text-white justify-end">{{ review.second_p }} 
-								</p>
-							</div>
-							<div class="flex p-3">
-								<p class="flex text-justify text-white">{{ review.third_p }}
-								{{ review.third_img|safe }}
-								</p>
-							</div>
-						</div>
-					{% endif %}
-				{% endfor %}
+		</div>
+		{% block javascript %}
+			<script>
+				// 2. This code loads the IFrame Player API code asynchronously.
+				var tag = document.createElement('script');
 
-			</div>
-		</main>
-	{% else %}
-		<script>
-			window.location.replace("{% url 'login' %}");
-		</script>
-	{% endif %}
+				tag.src = "https://www.youtube.com/iframe_api";
+				var firstScriptTag = document.getElementsByTagName('script')[0];
+				firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+				// 3. This function creates an <iframe> (and YouTube player)
+				//    after the API code downloads.
+				var player;
+
+				function onYouTubeIframeAPIReady() {
+					player = new YT.Player('player', {
+					  height: '315',
+					  width: '560',
+					  videoId: '{{ chapter.video_embed }}',
+					  playerVars: {
+						'autoplay': 0,
+						'showinfo': 0,
+						'rel': 0
+					  },
+					  events: {
+						'onStateChange': onPlayerStateChange
+					  }
+					});
+				}
+
+				var done = false;
+				var button = document.getElementById("submit_next");
+
+				function onPlayerStateChange(event) {
+					console.log(event);
+					if (event.data == 0) {
+						console.log("Video Complete");
+						button.setAttribute("class", "w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10");
+						button.disabled = false;
+					}
+				}
+			</script>
+		{% endblock %}
+	</main>
+
 {% endblock %}
+

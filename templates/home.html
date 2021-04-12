@@ -12,22 +12,23 @@
 	</head>
 
 	<body>
+		<!-- Main hero image layout-->
 		<div class="relative bg-white overflow-hidden">
   			<div class="max-w-7xl mx-auto">
     			<div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-2xl lg:w-full lg:pb-28 xl:pb-32">
       				<svg class="hidden lg:block absolute right-0 inset-y-0 h-full w-48 text-white transform translate-x-1/2" fill="currentColor" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
         			<polygon points="50,0 100,0 50,100 0,100" />
       				</svg>
-
+					
+					<!--Primary nav-->
 					<div class="relative pt-6 px-4 sm:px-6 lg:px-8">
 						<nav class="relative flex items-center justify-start" aria-label="Global">
-						<div class="flex items-center justify-start flex-grow flex-shrink-0 lg:flex-grow-0">
+						<div class="flex items-center justify-start flex-shrink-0">
 							<div class="flex items-center justify-start w-full md:w-auto">
 								<a href="http://www.abiomed.com"><img class="h-8 w-auto sm:h-10" src="../static/images/Abiomed Logo 1920x1082.png"></a>
 									<div class="-mr-2 flex items-center md:hidden">
-										<button id="open_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal" id="main-menu" aria-haspopup="true">
+										<button id="open_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal disabled:bg-red-100" id="main-menu" aria-haspopup="true">
 											<span class="sr-only">Open main menu</span>
-											<!-- Heroicon name: menu -->
 											<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
 										</button>
 									</div>
@@ -44,7 +45,15 @@
 									{% if user.is_authenticated %}
 										<div class="mx-4 w-24"><a href="{% url 'logout' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log out</a></div>
 
-										<div class="w-48"><a href="{% url 'profile' %}" class="flex flex-nowrap flex-row px-1 py-2 rounded-md text-base font-medium text-blue-navy hover:text-gray-900" role="menuitem">{{ user.profile.name }}<svg class="w-6 h-6 text-blue-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg></a></div>
+										<div class="w-48"><a href="{% url 'profile' %}" class="flex flex-nowrap flex-row px-1 py-2 rounded-md text-base font-medium text-blue-navy hover:text-gray-900" role="menuitem">
+											{% if user.profile.name == "" %}
+												Profile
+											{% else %}
+												{{ user.profile.name }}
+											{% endif %}
+											
+											<svg class="w-6 h-6 text-blue-navy" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg></a>
+										</div>
 
 									{% else %}
 										<div class="mx-2 w-24"><a href="{% url 'login' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log in</a></div>
@@ -56,16 +65,7 @@
 						</nav>
 					</div>
 					
-					<!--
-						Mobile menu, show/hide based on menu open state.
-
-						Entering: "duration-150 ease-out"
-						  From: "opacity-0 scale-95"
-						  To: "opacity-100 scale-100"
-						Leaving: "duration-100 ease-in"
-						  From: "opacity-100 scale-100"
-						  To: "opacity-0 scale-95"
-					  -->
+					<!--Mobile menu, show/hide based on menu open state-->
 					
 					<div id="mobile_menu" class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right hidden">
 						<div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
@@ -93,7 +93,7 @@
 									{% if user.is_authenticated %}
 										<a href="{% url 'logout' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log Out</a>
 									
-										<a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-blue-royal hover:bg-gray-50" role="menuitem">{{ user.profile.name }}<svg class="w-6 h-6 text-blue-navy" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg></a>
+										<a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-blue-royal hover:bg-gray-50" role="menuitem">{{ user.profile.name }}<svg class="w-6 h-6 text-blue-navy" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg></a>
 									{% else %}
 										<a href="{% url 'login' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log In</a>
 									
@@ -110,7 +110,7 @@
 								<span class="block xl:inline">Heart Recovery 101</span>
 								<span class="block text-abiomed-teal text-3xl pt-2 font-semibold xl:inline">Overcoming heart disease together</span>
 				  			</h1>
-				  			<p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat fugiat aliqua.</p>
+				  			<p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">Welcome to Heart Recovery 101, an inclusive, patient-focused community of patients, family and friends, and medical professionals devoted to free education and support for those living with heart disease.</p>
 				  			<div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
 								<div class="rounded-md shadow">
 									<a href="{% url 'signup' %}" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Join Today!</a>
@@ -125,52 +125,55 @@
 			</div>
 		</div>
 		
-		<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
-			<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
-				<div class="text-center">
-			  		<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Patient-focused education</p>
-			  		<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Heart Recovery 101 is a place for patients, family, and caregivers to learn about heart disease and recovery. Our free online course covers the basics, and our unique community can help you with any other questions you might have. Get started today!</p>
+		<!--Lower half - 'About' and external links-->
+		
+		<div class="flex justify-center">
+			<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
+				<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
+					<div class="text-center">
+						<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Patient-focused education</p>
+						<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Heart Recovery 101 is a place for patients, family, and caregivers to learn about heart disease and recovery. Our free online course covers the basics, and our unique community can help you with any other questions you might have. Get started today!</p>
+					</div>
+					<div><br/></div>
 				</div>
-				<div><br/></div>
-			</div>
-			<div class="grid grid-cols-3 gap-5 text-blue-navy">
-				<a href="{% url 'signup' %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
-					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg>
-					<p class="text-sm text-blue-navy font-semibold mt-4">Create a profile and share your story</p>
-				</div></a>
-				<a href="{% url 'course' pk=1 %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
-					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path></svg>
-					<p class="text-sm text-blue-navy font-semibold mt-4">Take the course and become a certified Patient Advocate</p>
-				</div></a>
-				<a href="{% url 'community' %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
-					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
-					<p class="text-sm text-blue-navy font-semibold mt-4">Join the online community of patients and providers</p>
-				</div></a>
+				<div class="grid grid-cols-3 gap-5 text-blue-navy">
+					<a href="{% url 'signup' %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
+						<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg>
+						<p class="text-sm text-blue-navy font-semibold mt-4">Create a profile and share your story</p>
+					</div></a>
+					<a href="{% url 'course' index=1 %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
+						<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path></svg>
+						<p class="text-sm text-blue-navy font-semibold mt-4">Take the course and become a certified Patient Advocate</p>
+					</div></a>
+					<a href="{% url 'community' %}"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
+						<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z"></path></svg>
+						<p class="text-sm text-blue-navy font-semibold mt-4">Join the online community of patients and providers</p>
+					</div></a>
+				</div>
 			</div>
 		</div>
-			
-		<div class="absolute inset-x-0 p-2 bg-gradient-to-r from-blue-navy via-blue-light to-blue-navy mt-4 p-8">
-			<div class="grid grid-cols-3 gap-5">
-				<div class="flex flex-col w-36">
-					<img class="pb-2" src="../static/images/AbioLogo_TAGLINE_White.png" />
-					<p class="text-white text-left text-xs ml-4"><span>&#169;</span>2021 Abiomed, Inc.</p>
-					<p class="text-white text-left text-xs ml-4">All rights reserved</p>
-				</div>
-				<div>
-					<p class="text-white text-left underline"><strong>Site Map</strong></p>
-					<p class="text-white text-left text-xs"><a href="{% url 'home' %}">Home</a></p>
-					<p class="text-white text-left text-xs"><a href="{% url 'education' %}">Education</a></p>
-					<p class="text-white text-left text-xs"><a href="{% url 'community' %}">Community</a></p>
-				</div>		
-				<div>
-					<p class="text-white text-left underline"><strong>Company</strong></p>
-					<p class="text-white text-left text-xs"><a href="http://www.abiomed.com">Abiomed.com</a></p>
-					<p class="text-white text-left text-xs"><a href="http://www.impella.com">Impella.com</a></p>
-					<p class="text-white text-left text-xs"><a href="http://www.heartrecovery.com">HeartRecovery.com</a></p>
-					<p class="text-white text-left text-xs"><a href="http://www.camppci.org">CAMPpci.org</a></p>
-				</div>		
-			</div>
-		</div>
-			
 	</body>
+	
+	<footer class="absolute inset-x-0 p-2 bg-gradient-to-r from-blue-navy via-blue-light to-blue-navy mt-4 p-8">
+		<div class="grid grid-cols-3 gap-5">
+			<div class="flex flex-col w-36">
+				<img class="pb-2" src="../static/images/AbioLogo_TAGLINE_White.png" />
+				<p class="text-white text-left text-xs ml-4"><span>&#169;</span>2021 Abiomed, Inc.</p>
+				<p class="text-white text-left text-xs ml-4">All rights reserved</p>
+			</div>
+			<div>
+				<p class="text-white text-left underline"><strong>Site Map</strong></p>
+				<p class="text-white text-left text-xs"><a href="{% url 'home' %}">Home</a></p>
+				<p class="text-white text-left text-xs"><a href="{% url 'education' %}">Education</a></p>
+				<p class="text-white text-left text-xs"><a href="{% url 'community' %}">Community</a></p>
+			</div>		
+			<div>
+				<p class="text-white text-left underline"><strong>Company</strong></p>
+				<p class="text-white text-left text-xs"><a href="http://www.abiomed.com">Abiomed.com</a></p>
+				<p class="text-white text-left text-xs"><a href="http://www.impella.com">Impella.com</a></p>
+				<p class="text-white text-left text-xs"><a href="http://www.heartrecovery.com">HeartRecovery.com</a></p>
+				<p class="text-white text-left text-xs"><a href="http://www.camppci.org">CAMPpci.org</a></p>
+			</div>		
+		</div>
+	</footer>
 </html>

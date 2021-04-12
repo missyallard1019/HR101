@@ -34,6 +34,7 @@ urlpatterns = [
 	path('course2/', views.course2, name='course2'),
 	path('profile/', discussions_views.profile, name='profile'),
 	path('community/<pk>/new/', discussions_views.new_topic, name='new_topic'),
+	path('community/search/', discussions_views.search, name='search_results'),
 	
 	path('reset/', 
 		 auth_views.PasswordResetView.as_view(

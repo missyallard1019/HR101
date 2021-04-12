@@ -24,6 +24,53 @@ def discussions(request):
 		form = PostForm()
 	return render(request, 'community.html', {'boards': boards, 'form': form})
 
+def search(request):
+	results = []
+	posts = Post.objects.all()
+	boards = Board.objects.all()
+	topics = Topic.objects.all()
+	query = request.GET.get('q')
+	
+	board_results1 = Board.objects.filter(name__contains=query)
+	for b in board_results1:
+		results.append(b)
+	board_results2 = Board.objects.filter(description__contains=query)
+	for c in board_results2:
+		results.append(c)
+
+	topic_results = Topic.objects.filter(subject__icontains=query)
+	for t in topic_results:
+		if t in results:
+			print("already exists")
+		else:
+			results.append(t)
+
+	post_results = Post.objects.filter(message__icontains=query)
+	for p in post_results:
+		p_topic = p.topic
+		print(p_topic)
+		if p_topic in results:
+			print("already exists")
+		else:
+			results.append(p_topic)
+
+	if request.method == 'POST':
+		form = PostForm(request.POST)
+		topic_id_list = request.POST.getlist('topic_id')
+		topic_id = topic_id_list[0]
+		
+		topic = Topic.objects.get(id=topic_id)
+		
+		if form.is_valid():
+			post = form.save(commit=False)
+			post.topic = topic
+			post.created_by = request.user
+			post.save()
+			return redirect('community')
+	else:
+		form = PostForm()
+	return render(request, 'search_results.html', {'results': results, 'query': query, 'boards': boards, 'posts': posts, 'topics': topics, 'form': form})
+
 
 @login_required
 def new_topic(request, pk):
@@ -52,18 +99,34 @@ def new_topic(request, pk):
 @login_required
 def profile(request):
 	user = request.user
+	user_topics = []
+	user_posts_topics = []
+	
+	for topic in Topic.objects.all():
+		if topic.starter == user:
+			user_topics.append(topic)
+	
+	for post in Post.objects.all():
+		if post.topic.starter == user:
+			pass
+		elif post.created_by == user:
+			if post.topic in user_posts_topics:
+				pass
+			else:
+				user_posts_topics.append(post.topic)
 	
 	if request.method == 'POST':
 		current_profile = Profile.objects.get(user_id=user.id)
 		form = ProfileUpdateForm(request.POST, instance=current_profile)
+
 		
 		if form.is_valid():
 			profile = form.save(commit=False)
 			profile.user_id = user.id
 			profile.user_type = "Patient"
 			profile.save()
-			return render(request, 'profile.html')
+			return redirect('profile')
 	else:
 		form = ProfileUpdateForm()
 		
-	return render(request, 'profile.html', {'form': form})
+	return render(request, 'profile.html', {'form': form, 'user_topics': user_topics, 'user_posts_topics': user_posts_topics})

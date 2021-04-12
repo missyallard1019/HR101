@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}HR101 - Education{% endblock %}
 
 {% block content %}
@@ -19,13 +21,18 @@
 			</div>
 			<div class="flex flex-col items-right justify-right p-6">
 				<div id="video_frame" class="flex sm:justify-center lg:justify-end py-4">
-					{{ chapter.video_embed|safe }}
+					<iframe id="player" type="text/html" width="560" height="315" src="https://www.youtube.com/embed/{{ chapter.video_embed }}?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
-
+				
+				<!--If user is not logged in or has never started the course, invite them to begin and link to first module. If user has already started the course, invite them to resume and link to most recent modeule-->
 				{% if user.is_authenticated %}
 					<div class="flex sm:justify-center lg:justify-end">
 						<div class="rounded-md shadow">
-							<a href="{% url 'course' progress.current_chapter.index %}" class="w-full flex items-center py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Begin the Course!</a>
+							{% if progress.current_chapter.index > 1 %}
+								<a href="{% url 'course' progress.current_chapter.index %}" class="w-full flex items-center py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Resume the Course</a>
+							{% else %}
+								<a href="{% url 'course' progress.current_chapter.index %}" class="w-full flex items-center py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Begin the Course</a>
+							{% endif %}
 						</div>
 					</div>
 				{% else %}
@@ -36,34 +43,9 @@
 					</div>
 				{% endif %}
 			</div>
-
 		</main>
-
-	<!--Browse Resources features --ON HOLD
-	<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
-		<div class="mr-36 ml-36 lg:text-center divide-y-2 divide-currentColor divide-w-48">
-			<div class="text-center">
-				<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Browse Educational Resources</p>
-				<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in accusamus quisquam.</p>
-			</div>
-			<div><br/></div>
-			</div>
-			<div class="grid grid-cols-3 gap-5 text-blue-navy">
-				<a href="#"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
-					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd"></path></svg>
-					<p class="text-sm text-blue-navy font-semibold mt-4">Explore Articles</p>
-				</div></a>
-				<a href="#"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
-					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm3 2h6v4H7V5zm8 8v2h1v-2h-1zm-2-2H7v4h6v-4zm2 0h1V9h-1v2zm1-4V5h-1v2h1zM5 5v2H4V5h1zm0 4H4v2h1V9zm-1 4h1v2H4v-2z" clip-rule="evenodd"></path></svg>
-					<p class="text-sm text-blue-navy font-semibold mt-4">Browse Videos</p>
-				</div></a>
-				<a href="{% url 'community' %}"><div class="bg-white h-64 w-64 m-5 p-5 rounded-lg shadow-lg">
-					<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"></path><path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"></path></svg>
-					<p class="text-sm text-blue-navy font-semibold mt-4">Browse the Community Discussion Boards</p>
-				</div></a>
-			</div>
-		</div>-->
-
+		
+		<!--Lower half - External links for further research-->
 		<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
 			<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
 				<div class="text-center">

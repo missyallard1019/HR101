@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% load widget_tweaks %}
+
+{% block title %}HR101 - Community{% endblock %}
+
+{% block content %}
+	<main id="community">
+		<div class="max-w-7xl mt-10 px-4 sm:px-6 lg:px-8">
+			<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
+				<div class="text-center">
+					<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Join the Conversation</p>
+					<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Heart recovery 101 is home to an amzing community of patients, family, friends and caregivers who are here to share their experiences with heart disease and support one another. The community also includes nurses, physicians, and Abiomed staff to help answer your questions. Browse the discussion board topics, join a support group, or send us your questions directly!</p>
+				</div>
+				<div><br/></div>
+			</div>
+		</div>
+	</main>
+
+	<div class="max-w-7xl mt-4 px-4 sm:px-6 lg:px-8">
+		<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
+			<div class="text-center">
+				<p class="m-2 text-3xl leading-8 font-extrabold tracking-tight text-abiomed-teal sm:text-3xl">Discussions</p>
+				
+				<p class="mt-2 mb-4 text-lg leading-8 tracking-tight text-gray-500 sm:text-lg">Search results for "{{ query }}": </p>
+				<div class="flex flex-row justify-center items-center mt-2 mb-4 text-lg leading-8 tracking-tight text-gray-500 sm:text-lg">
+					<form action="{% url 'search_results' %}" method="get" class="flex">
+						<input class="flex border border-abiomed-teal bg-gray-50 rounded p-2" name="q" type="text" placeholder="Search again...">
+						<button type="submit" class="flex rounded-md shadow items-center p-2 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal"><svg class="w-6 h-6" fill="white" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg></button>
+					</form>
+				</div>
+			</div>
+			<div class="pb-8"></div>
+		</div>
+	</div>
+		
+	<!--Display results for board matching the query-->
+
+	{% for r in results %}
+	{% empty %}
+		No results matched your search
+	{% endfor %}
+
+	{% for board in boards %}
+
+		{% if board in results %}
+			<div class="bg-gradient-to-r from-abiomed-teal via-abiomed-teal-light to-abiomed-teal h-auto w-full m-1 p-5 rounded-lg shadow-lg text-white text=3xl justify-center">
+				<div class="text-2xl"><strong>{{ board.name }}</strong></div>
+
+				<p class="text-lg text-shadow-md">{{ board.description }}</p>
+				<div>
+					{% for topic in board.topics.all %}
+						{% if topic != }
+						<div class="bg-abiomed-teal-pale h-auto w-full m-1 p-2 rounded-lg text-gray-900 text=lg justify-center">
+
+							{% for post in topic.posts.all %}
+
+								{% if forloop.first %}
+									<div id="topic{{ topic.id }}" class="show_topic_posts btn border-2 border-abiomed-teal rounded-lg p-2 m-1 hover:bg-abiomed-teal-light">
+										<div class="flex text-black">
+											<svg class="w-6 h-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+											<p><strong class="text-xl">"{{ topic.subject }}"</strong> by <strong> {{ topic.starter.username }}</strong> at {{ topic.last_updated }}</p>
+										</div>
+										<div>
+											<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg">
+												{{ post.message }}
+											</div>
+											<small>{{ topic.posts.count }} Comments</small>
+										</div>
+									</div>
+								{% endif %}
+							{% endfor %}
+
+							<div id="topic{{ topic.id }}posts" class="topic_posts hidden">
+								{% for post in topic.posts.all %}
+									{% if not forloop.first %}
+										<div class="flex mx-6">
+											<svg class="w-6 h-6 mx-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+										</div>
+										<div class="mx-6">
+											<strong>{{ post.created_by.username }}</strong>
+											<small>{{ post.created_at }}</small>
+											<div class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
+												{{ post.message }}
+												<br>
+												{% if post.created_by == user %}
+													<div class="flex justify-right">
+														<div class=" flex justify-right rounded-md shadow w-14 h-8 items-center mt-4 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4"><a href="#">Edit</a></div>
+													</div>
+												{% endif %}
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+
+							<div id="topic{{ topic.id }}reply" class="reply_form hidden">
+								{% if user.is_authenticated %}
+									<form method="post" novalidate>
+										{% csrf_token %}
+										<div class="w-auto">
+											{% include 'includes/form.html' %}
+											<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
+											<div class="flex justify-center pt-0 pb-4">
+												<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Reply</button>
+											</div>
+
+										</div>
+									</form>
+								{% else %}
+									<p>To post a reply, please <strong><a href="{% url 'login' %}">Log In</a></strong></p>
+								{% endif %}
+
+							</div>
+						</div>
+
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+	{% endfor %}
+
+	<!--Display results for topics matching the query-->
+	{% for topic in topics %}
+		{% if topic in results %}
+			{% if topic.board in results %}
+
+			{% else %}
+				<div class="bg-gradient-to-r from-abiomed-teal via-abiomed-teal-light to-abiomed-teal h-auto w-full m-1 p-5 rounded-lg shadow-lg text-white text=3xl justify-center">
+					<div class="text-2xl"><strong>{{ topic.board.name }}</strong></div>
+
+					<p class="text-lg text-shadow-md">{{ topic.board.description }}</p>
+					<div>
+						<div class="bg-abiomed-teal-pale h-auto w-full m-1 p-2 rounded-lg text-gray-900 text=lg justify-center">
+
+							{% for post in topic.posts.all %}
+
+								{% if forloop.first %}
+									<div id="topic{{ topic.id }}" class="show_topic_posts btn border-2 border-abiomed-teal rounded-lg p-2 m-1 hover:bg-abiomed-teal-light">
+										<div class="flex text-black">
+											<svg class="w-6 h-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+											<p><strong class="text-xl">"{{ topic.subject }}"</strong> by <strong> {{ topic.starter.username }}</strong> at {{ topic.last_updated }}</p>
+										</div>
+										<div>
+											<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg">
+												{{ post.message }}
+											</div>
+											<small>{{ topic.posts.count }} Comments</small>
+										</div>
+									</div>
+								{% endif %}
+							{% endfor %}
+
+							<div id="topic{{ topic.id }}posts" class="topic_posts hidden">
+								{% for post in topic.posts.all %}
+									{% if not forloop.first %}
+										<div class="flex mx-6">
+											<svg class="w-6 h-6 mx-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+										</div>
+										<div class="mx-6">
+											<strong>{{ post.created_by.username }}</strong>
+											<small>{{ post.created_at }}</small>
+											<div class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
+												{{ post.message }}
+												<br>
+												{% if post.created_by == user %}
+													<div class="flex justify-right">
+														<div class=" flex justify-right rounded-md shadow w-14 h-8 items-center mt-4 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4"><a href="#">Edit</a></div>
+													</div>
+												{% endif %}
+											</div>
+										</div>
+									{% endif %}
+								{% endfor %}
+							</div>
+
+							<div id="topic{{ topic.id }}reply" class="reply_form hidden">
+								{% if user.is_authenticated %}
+									<form method="post" novalidate>
+										{% csrf_token %}
+										<div class="w-auto">
+											{% include 'includes/form.html' %}
+											<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
+											<div class="flex justify-center pt-0 pb-4">
+												<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Reply</button>
+											</div>
+
+										</div>
+									</form>
+								{% else %}
+									<p>To post a reply, please <strong><a href="{% url 'login' %}">Log In</a></strong></p>
+								{% endif %}
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+	<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
+		<div class="pt-8"></div>
+		<div></div>
+	</div>
+	<div class="flex justify-center pt-10 pb-0">
+		<a href="{% url 'community' %}" class="flex justify-end rounded-md shadow w-auto h-8 items-center mt-2 p-2 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:text-lg md:px-10">Back to Discussion Boards</a>
+	</div>
+				
+{% endblock %}

@@ -10,7 +10,7 @@ module.exports = {
 				transparent: 'transparent',
 				current: 'currentColor',
 				blue: {
-					'pale': '#bbd7f0',
+					'pale': '#B7CADB',
 					'light': '#4A7195',
 					'royal': '#005fa9',
 					'navy': '#0e355a',
@@ -28,7 +28,9 @@ module.exports = {
 		},
 	},
 	variants: {
-		extend: {},
+		backgroundColor: ['responsive', 'hover', 'focus', 'active', 'disabled'],
+    	textColor: ['responsive', 'hover', 'focus', 'active', 'disabled'],
+		opacity: ['responsive', 'hover', 'focus', 'active', 'disabled'],
 	},
 	plugins: [
 		require('tailwindcss-textshadow')
