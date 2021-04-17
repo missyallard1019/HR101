@@ -14,6 +14,7 @@
 				</div>
 				<div><br/></div>
 				</div>
+				<!--Buttons for when more Discussion features are available: DMs, etc.
 				<div class="grid grid-cols-3 gap-5 text-blue-navy">
 					<a href="#"><div class="bg-white rounded-lg shadow-lg sm:h-48 sm:w-36 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
 						<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" clip-rule="evenodd"></path></svg>
@@ -27,7 +28,7 @@
 						<svg class="w-14 h-14" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
 						<p class="text-sm text-blue-navy font-semibold mt-4">Send a direct message to our team of experts</p>
 					</div></a>
-				</div>
+				</div>-->
 			</div>
 		</main>
 		
@@ -81,19 +82,40 @@
 											<div class="flex mx-6">
 												<svg class="w-6 h-6 mx-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
 											</div>
-											<div class="mx-6">
-												<strong>{{ post.created_by.username }}</strong>
-												<small>{{ post.created_at }}</small>
-												<div class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
-													{{ post.message }}
-													<br>
-													{% if post.created_by == user %}
-														<div class="flex justify-right">
-															<div class=" flex justify-right rounded-md shadow w-14 h-8 items-center mt-4 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4"><a href="#">Edit</a></div>
-														</div>
-													{% endif %}
+											{% if post.created_by == user %}
+												<div class="mx-6">
+													<strong>{{ post.created_by.username }}</strong>
+													<small>{{ post.created_at }}</small>
+													<div id="current_post" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
+														{{ post.message }}
+														<br>
+															<button id="edit_post" name="post_id" value="{{ post.id }}" class="flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Edit Post</button>
+													</div>
+													<div id="edit_post_form" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg hidden">
+														<form method="post" novalidate>
+															{% csrf_token %}
+															<div class="w-auto">
+																{% include 'includes/form.html' %}
+																<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
+																<input class="hidden" name="post_id" id="post_id" value="{{ post.id }}" />
+																<input class="hidden" name="post_message" id="post_message" value="{{ post.message }}" />
+																<div class="flex justify-center pt-0 pb-4">
+																	<button type="submit" class="flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Save Changes</button>
+																</div>
+
+															</div>
+														</form>
+													</div>
 												</div>
-											</div>
+											{% else %}
+												<div class="mx-6">
+													<strong>{{ post.created_by.username }}</strong>
+													<small>{{ post.created_at }}</small>
+													<div id="current_post" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
+														{{ post.message }}
+													</div>
+												</div>
+											{% endif %}
 										{% endif %}
 									{% endfor %}
 								</div>
@@ -102,7 +124,7 @@
 									{% if user.is_authenticated %}
 										<form method="post" novalidate>
 											{% csrf_token %}
-											<div class="w-auto">
+											<div id="reply_field" class="w-auto">
 												{% include 'includes/form.html' %}
 												<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
 												<div class="flex justify-center pt-0 pb-4">

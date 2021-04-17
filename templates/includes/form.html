@@ -23,7 +23,7 @@
 				{% if form.is_bound %}
 					{% if field.errors %}
 						<div class="justify-start">
-							{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-12 border-red" placeholder=field.cleaned_data %}
+							{% render_field field class="placeholder_field flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-red" placeholder=field.cleaned_data %}
 							{% for error in field.errors %}
 								<p class="font-medium tracking-wide text-red text-xs mt-1 ml-1">{{ error }}</p>
 							{% endfor %}
@@ -31,21 +31,21 @@
 						
 					{% else %}
 						<div class="justify-start">
-							{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-12 border-gray-300" placeholder=field.cleaned_data %}
+							{% render_field field class="placeholder_field flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-gray-300" placeholder=field.cleaned_data %}
 						</div>
 						
 					{% endif %}
 
 				{% else %}
 					<div class="flex justify-start">
-						{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-12 border-gray-300" placeholder=field.cleaned_data %}
+						{% render_field field class="placeholder_field flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-gray-300" placeholder=field.cleaned_data %}
 					</div>
 					
 				{% endif %}
 
 				{% if field.help_text %}
-					<div class="justify-start">
-						<p class="font-medium tracking-wide text-gray-500 text-xs mt-1 ml-1">{{ field.help_text|safe }}</p>
+					<div class="flex justify-center">
+						<p class="flex text-center font-medium tracking-wide text-gray-500 text-sm mt-1 ml-1">{{ field.help_text|safe }}</p>
 					</div>
 				{% endif %}
 			</div>

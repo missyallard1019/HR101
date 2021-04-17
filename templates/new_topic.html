@@ -6,8 +6,8 @@
 
 {% block content %}
 	<div class="flex justify-center">
-		<div class="flex justify-center p-4 m-4 rounded shadow bg-blue-pale w-2/3 h-auto">
-			<strong class="text-lg">Create a new topic in the {{ board.name }} discussion: </p>
+		<div class="flex justify-center p-4 m-4 rounded shadow bg-gradient-to-r from-abiomed-teal-light via-abiomed-teal-pale to-abiomed-teal-light w-2/3 h-auto">
+			<strong class="text-center text-lg">Create a new topic in the {{ board.name }} discussion: </p>
 			<div class="p-10 justify-center">
 				<form method="post" novalidate>
 					{% csrf_token %}

@@ -6,22 +6,35 @@ from .models import Board, Topic, Post, Profile
 
 def discussions(request):
 	boards = Board.objects.all()
-	
+
 	if request.method == 'POST':
-		form = PostForm(request.POST)
-		topic_id_list = request.POST.getlist('topic_id')
-		topic_id = topic_id_list[0]
-		
-		topic = Topic.objects.get(id=topic_id)
-		
-		if form.is_valid():
-			post = form.save(commit=False)
-			post.topic = topic
-			post.created_by = request.user
-			post.save()
-			return redirect('community')
+		post_id = request.POST.get('post_id')
+		print(post_id)
+	
+		if post_id == None:
+			form = PostForm(request.POST)
+			topic_id_list = request.POST.getlist('topic_id')
+			topic_id = topic_id_list[0]
+
+			topic = Topic.objects.get(id=topic_id)
+
+			if form.is_valid():
+				post = form.save(commit=False)
+				post.topic = topic
+				post.created_by = request.user
+				post.save()
+				return redirect('community')
+		else:
+			current_post = Post.objects.get(id=post_id)
+			form = PostForm(request.POST or None, instance=current_post)
+			
+			if form.is_valid():
+				form.save()
+				return redirect('community')
+
 	else:
 		form = PostForm()
+	
 	return render(request, 'community.html', {'boards': boards, 'form': form})
 
 def search(request):
@@ -115,18 +128,15 @@ def profile(request):
 			else:
 				user_posts_topics.append(post.topic)
 	
-	if request.method == 'POST':
-		current_profile = Profile.objects.get(user_id=user.id)
-		form = ProfileUpdateForm(request.POST, instance=current_profile)
+	current_profile = Profile.objects.get(user_id=user.id)
+	form = ProfileUpdateForm(request.POST or None, instance=current_profile)
 
-		
-		if form.is_valid():
-			profile = form.save(commit=False)
-			profile.user_id = user.id
-			profile.user_type = "Patient"
-			profile.save()
-			return redirect('profile')
-	else:
-		form = ProfileUpdateForm()
+
+	if form.is_valid():
+		profile = form.save(commit=False)
+		profile.user_id = user.id
+		profile.user_type = "Patient"
+		profile.save()
+		return redirect('profile')
 		
 	return render(request, 'profile.html', {'form': form, 'user_topics': user_topics, 'user_posts_topics': user_posts_topics})
