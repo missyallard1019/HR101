@@ -48,8 +48,8 @@ class SuccessfulSignUpTests(TestCase):
 		self.assertTrue(User.objects.exists())
 		
 	def test_user_authentication(self):
-		education_url = reverse('education')
-		response = self.client.get(education_url)
+		community_url = reverse('community')
+		response = self.client.get(community_url)
 		user = response.context.get('user')
 		self.assertTrue(user.is_authenticated)
 		

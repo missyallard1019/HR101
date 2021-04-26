@@ -9,14 +9,14 @@
 		<div class="lg:grid lg:grid-cols-2">
 			<div class="divide-y-2 divide-currentColor py-12 sm:divide-w-12 sm:mx-18 sm:text-center md:divide-w-24 lg:mx-6">
 				<div class="py-2 sm:text-center lg:text-left">
-					<h1 class="text-4xl tracking-tight font-extrabold text-blue-navy sm:text-2xl md:text-4xl">
+					<div class="text-4xl tracking-tight font-extrabold text-blue-navy sm:text-2xl md:text-4xl">
 						<p class="block xl:inline">
 							Chapter {{ chapter.index }}:
 						</p>
 						<span class="block xl:inline">
 							{{ chapter.title }}
 						</span>
-					</h1>
+					</div>
 				</div>
 				<div class="sm:text-center lg:text-left">
 					<span class="block tex-gray-900 text-xl pt-2 font-semibold xl:inline">{{ chapter.tag_line }}</span>
@@ -38,10 +38,10 @@
 					<!--Next button is disabled until the YouTube API indicates the video has been completed. Then the Next button is enabled and links to the mext module. Upon clicking "Next," the user's Progress is saved. Scripts for this section are located at the pottom of the template.-->
 					<div class="rounded-md shadow">
 						{% if progress.current_chapter.index <= chapter.index %}
-							<form method="POST" value="{{ chapter.index }}" novalidate>
+							<form method="POST" novalidate>
 								{% csrf_token %}
 								<input type="hidden" name="current_chapter" value="{{ progress.current_chapter.index|add:'+1' }}"/>
-								<input type="submit" id="submit_next" value="Next Chapter" alt="Watch the video to unlock the next chapter" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal opacity-50 md:py-4 md:text-lg md:px-10" disabled />
+								<input type="submit" id="submit_next" value="Next Chapter" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal opacity-50 md:py-4 md:text-lg md:px-10" disabled />
 							</form>
 						{% else %}
 							<a href="{% url 'course' chapter.index|add:'+1' %}" class="w-full flex items-center justify-right px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Next Chapter</a>

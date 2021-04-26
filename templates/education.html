@@ -21,7 +21,7 @@
 			</div>
 			<div class="flex flex-col items-right justify-right p-6">
 				<div id="video_frame" class="flex sm:justify-center lg:justify-end py-4">
-					<iframe id="player" type="text/html" width="560" height="315" src="https://www.youtube.com/embed/{{ chapter.video_embed }}?enablejsapi=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					<iframe id="player" width="560" height="315" src="https://www.youtube.com/embed/{{ chapter.video_embed }}?enablejsapi=1" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 				</div>
 				
 				<!--If user is not logged in or has never started the course, invite them to begin and link to first module. If user has already started the course, invite them to resume and link to most recent modeule-->
@@ -31,7 +31,7 @@
 							{% if progress.current_chapter.index > 1 %}
 								<a href="{% url 'course' progress.current_chapter.index %}" class="w-full flex items-center py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Resume the Course</a>
 							{% else %}
-								<a href="{% url 'course' progress.current_chapter.index %}" class="w-full flex items-center py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Begin the Course</a>
+								<a href="{% url 'course' progress.current_chapter.index|add:'+1' %}" class="w-full flex items-center py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-lg md:px-10">Begin the Course</a>
 							{% endif %}
 						</div>
 					</div>
@@ -55,16 +55,16 @@
 				<div><br/></div>
 			</div>
 			<div class="grid grid-cols-3 gap-5 text-blue-navy">
-				<a href="{% url 'community' %}"><div class="bg-white rounded-lg shadow-lg sm:h-64 sm:w-48 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
-					<img src="../static/images/impella.png" class="w-20">
+				<a href="http://www.impella.com"><div class="bg-white rounded-lg shadow-lg sm:h-64 sm:w-48 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
+					<img src="../static/images/impella.png" class="w-20" alt="Visit Impella.com">
 					<p class="text-sm text-blue-navy font-semibold mt-4">Impella.com - Information for patients who are living with heart disease and are interested in the Impella heart pump</p>
 				</div></a>
 				<a href="http://www.heartrecovery.com"><div class="bg-white rounded-lg shadow-lg sm:h-64 sm:w-48 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
-					<img src="../static/images/logo-abmd-HRcom.svg" class="h-18">
+					<img src="../static/images/logo-abmd-HRcom.svg" class="h-18" alt="Visit HeartRecovery.com">
 					<p class="text-sm text-blue-navy font-semibold mt-4">HeartRecovery.com - In-depth information for physisians and medical professionals</p>
 				</div></a>
 				<a href="http://www.camppci.org"><div class="bg-white rounded-lg shadow-lg sm:h-64 sm:w-48 sm:m-2 sm:p-3 md:h-64 md:w-64 md:m-5 md:p-5">
-					<img src="../static/images/header-logo-436cb427c0b4afa9e3eb516967cb2fc1.png" class="h-18">
+					<img src="../static/images/header-logo-436cb427c0b4afa9e3eb516967cb2fc1.png" class="h-18" alt="Visit CAMPpci.org">
 					<p class="text-sm text-blue-navy font-semibold mt-4">CAMP PCI - An advanced educational platform for practicing cardiologists and surgeons</p>
 				</div></a>
 			</div>

@@ -44,7 +44,7 @@ class Post(models.Model):
 class Profile(models.Model):
 	user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
 	name = models.CharField(max_length=30, blank=True)
-	age = models.IntegerField(null=True, blank=True)
+	age = models.PositiveIntegerField(null=True, blank=True)
 	user_type = models.CharField(max_length=30, blank=True)
 	location = models.CharField(max_length=30, blank=True)
 	bio = models.TextField(max_length=500, blank=True)

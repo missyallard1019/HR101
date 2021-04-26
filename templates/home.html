@@ -1,5 +1,5 @@
 {% load static %}<!doctype html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<title>Heart Recovery 101 - Home</title>
@@ -25,9 +25,9 @@
 						<nav class="relative flex items-center justify-start" aria-label="Global">
 						<div class="flex items-center justify-start flex-shrink-0">
 							<div class="flex items-center justify-start w-full md:w-auto">
-								<a href="http://www.abiomed.com"><img class="h-8 w-auto sm:h-10" src="../static/images/Abiomed Logo 1920x1082.png"></a>
+								<a href="http://www.abiomed.com"><img class="h-8 w-auto sm:h-10" src="../static/images/Abiomed_Logo_1920x1082.png" alt="Visit Abiomed.com"></a>
 									<div class="-mr-2 flex items-center md:hidden">
-										<button id="open_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal disabled:bg-red-100" id="main-menu" aria-haspopup="true">
+										<button id="open_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal disabled:bg-red-100" aria-haspopup="true" ><!-- add onclick="toggleMobileMenu()" for one-click fix, but only works once-->
 											<span class="sr-only">Open main menu</span>
 											<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
 										</button>
@@ -71,7 +71,7 @@
 						<div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
 							<div class="px-5 pt-4 flex items-center justify-between">
 								<div>
-									<img class="h-8 w-auto" src="../static/images/Abiomed Logo 1920x1082.png" alt="Abiomed logo">
+									<img class="h-8 w-auto" src="../static/images/Abiomed_Logo_1920x1082.png" alt="Abiomed logo" alt="Visit Abiomed.com">
 								</div>
 								<div class="-mr-2">
 									<button id="close_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal">
@@ -81,7 +81,7 @@
 									</button>
 								</div>
 							</div>
-							<div role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
+							<div role="menu" aria-orientation="vertical" aria-labelledby="mobile_menu">
 								<div class="px-2 pt-2 pb-3 space-y-1" role="none">
 									<a id="homelink2" href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Home</a>
 									
@@ -157,7 +157,7 @@
 	<footer class="absolute inset-x-0 p-2 bg-gradient-to-r from-blue-navy via-blue-light to-blue-navy mt-4 p-8">
 		<div class="grid grid-cols-3 gap-5">
 			<div class="flex flex-col w-36">
-				<img class="pb-2" src="../static/images/AbioLogo_TAGLINE_White.png" />
+				<img class="pb-2" src="../static/images/AbioLogo_TAGLINE_White.png" alt="Abiomed Logo"/>
 				<p class="text-white text-left text-xs ml-4"><span>&#169;</span>2021 Abiomed, Inc.</p>
 				<p class="text-white text-left text-xs ml-4">All rights reserved</p>
 			</div>

@@ -36,13 +36,13 @@
 					<p class="font-semibold py-1">{{ user.profile.name }} <small>({{ user.profile.user_type }})</small></p>
 					<p class="font-semibold py-1">{{ user.profile.age }}</p>
 					<p class="font-semibold py-1">{{ user.profile.location }}</p>
-					<p class="font-semibold py-1">{{user.profile.bio }}</p>
+					<p class="font-semibold py-1" style='white-space:pre'>{{user.profile.bio }}</p>
 				</div>
 
 			</div>
 
 			<div class="flex justify-end pt-10">
-				<button id="edit_profile_button" class="flex justify-center rounded-md shadow w-14 h-8 items-center mt-4 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4">Edit</button>
+				<button id="edit_profile_button" class="flex justify-center rounded-md shadow w-auto h-12 items-center mt-4 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4">Edit Profile</button>
 			</div>
 		</div>
 		<div class="flex justify-center w-full">
@@ -60,6 +60,10 @@
 			</div>
 		</div>
 	{% endif %}
+	<div class="flex justify-end mx-10">
+		<a href="{% url 'password_change' %}" class="flex justify-end rounded-md shadow w-auto h-12 items-center mt-2 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4">Change your password</a>
+	</div>
+	
 
 	<!-- Display any topics the user has started -->
 	<div class="text-center">
@@ -86,7 +90,7 @@
 									<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg">
 										{{ post.message }}
 									</div>
-									<small>{{ topic.posts.count }} Comments</small>
+									<small>{{ topic.posts.count|add:'-1' }} Comments</small>
 								</div>
 							</div>
 						{% endif %}
@@ -166,13 +170,13 @@
 									<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg">
 										{{ p.message }}
 									</div>
-									<small>{{ p.topic.posts.count }} Comments</small>
+									<small>{{ p.topic.posts.count|add:'-1' }} Comments</small>
 								</div>
 							</div>
 						{% endif %}
 					{% endfor %}
 
-					<div id="topic{{ topic.id }}posts" class="topic_posts hidden">
+					<div id="topic{{ topic.id }}posts" class="topic_posts">
 						{% for p in topic.posts.all %}
 							{% if not forloop.first %}
 								<div class="flex mx-6">

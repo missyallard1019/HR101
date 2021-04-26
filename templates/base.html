@@ -1,5 +1,5 @@
 {% load static %}<!doctype html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<title>{% block title %}Heart Recovery 101{% endblock %}</title>
@@ -11,128 +11,132 @@
 		
 	</head>
 
-	<body>
-		{% block body %}
-			<!--Primary Nav-->
-			<div class="relative bg-white overflow-hidden">
-				<div class="max-w-7xl mx-auto">
-					<div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-7xl lg:w-full lg:pb-28 xl:pb-32">
+	<div class="h-screen">
+		<div class="mb-auto">
+			<body>
+				{% block body %}
+					<!--Primary Nav-->
+					<div class="relative bg-white overflow-hidden">
+						<div class="max-w-7xl mx-auto">
+							<div class="relative z-10 pb-8 bg-white sm:pb-16 md:pb-20 lg:max-w-7xl lg:w-full lg:pb-28 xl:pb-32">
 
-						<div class="relative pt-6 px-4 sm:px-6 lg:px-8">
-							<nav class="relative flex items-center" aria-label="Global">
-							<div class="flex justify-start flex-shrink-0 flex-grow">
-								<div class="flex items-center justify-start w-full md:w-auto">
-									<a href="http://www.abiomed.com"><img class="h-8 w-auto sm:h-10" src="{% static 'images/Abiomed Logo 1920x1082.png' %}"></a>
-										<div class="-mr-2 flex items-center justify-start md:hidden">
-											<button id="open_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal" id="main-menu" aria-haspopup="true">
-												<span class="sr-only">Open main menu</span>
-												<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-											</button>
+								<div class="relative pt-6 px-4 sm:px-6 lg:px-8">
+									<nav class="relative flex items-center" aria-label="Global">
+									<div class="flex justify-start flex-shrink-0 flex-grow">
+										<div class="flex items-center justify-start w-full md:w-auto">
+											<a href="http://www.abiomed.com"><img class="h-8 w-auto sm:h-10" src="{% static 'images/Abiomed_Logo_1920x1082.png' %}" alt="Visit Abiomed.com"></a>
+												<div class="-mr-2 flex items-center justify-start md:hidden">
+													<button id="open_menu" type="button" class="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal" id="main-menu" aria-haspopup="true">
+														<span class="sr-only">Open main menu</span>
+														<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+													</button>
+												</div>
+											</div>
+										</div>
+										<div class="flex flex-row justify-start sm:invisible md:visible md:ml-10 md:pr-4 md:space-x-8">
+											<div class="flex flex-row justify-start items-center m-2 p-2">
+												<div class="mx-4"><a id="homelink" href="{% url 'home' %}" class="font-medium text-gray-500 hover:text-gray-900">Home</a></div>
+
+												<div class="mx-4"><a id="educationlink" href="{% url 'education' %}" class="font-medium text-gray-500 hover:text-gray-900">Education</a></div>
+
+												<div class="mx-4"><a id="communitylink" href="{% url 'community' %}" class="font-medium text-gray-500 hover:text-gray-900">Community</a></div>
+
+												{% if user.is_authenticated %}
+													<div class="mx-4 w-32"><a href="{% url 'logout' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log out</a></div>
+
+												<!--Show username and link to profile if logged in
+												Show "Profile" if logged in but profile is left blank-->
+													<div class="mx-4 pr-2"><a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-gray-900 hover:bg-gray-50">
+														{% if user.profile.name == "" %}
+															Profile
+														{% else %}
+															{{ user.profile.name }}
+														{% endif %}
+														<svg class="w-6 h-6 text-blue-navy" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg></a>
+													</div>
+
+												{% else %}
+													<div class="mx-4"><a href="{% url 'login' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log in</a></div>
+
+													<div class="mx-4"><a href="{% url 'signup' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Create account</a></div>
+												{% endif %}
+											</div>
+										</div>
+									</nav>
+								</div>
+
+								<!--Mobile menu, show/hide based on menu open state-->
+
+								<div id="mobile_menu" class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right hidden">
+									<div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
+										<div class="px-5 pt-4 flex items-center justify-between">
+											<div>
+												<img class="h-8 w-auto" src="{% static 'images/Abiomed_Logo_1920x1082.png'%}" alt="Visit Abiomed.com">
+											</div>
+											<div class="-mr-2">
+												<button id="close_menu" type="button" class="close_menu bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal">
+													<span class="sr-only">Close main menu</span>
+													<!-- Heroicon name: x -->
+													<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+												</button>
+											</div>
+										</div>
+										<div role="menu" aria-orientation="vertical" aria-labelledby="mobile_menu">
+											<div class="px-2 pt-2 pb-3 space-y-1" role="none">
+												<a id="homelink2" href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Home</a>
+
+												<a id="educationlink2" href="{% url 'education' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Education</a>
+
+												<a id="communitylink2" href="{% url 'community' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Community</a>
+											</div>
+											<div role="none">
+												{% if user.is_authenticated %}
+													<a href="{% url 'logout' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log Out</a>
+
+													<a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-blue-royal hover:bg-gray-50" role="menuitem">{{ user.profile.name }}<svg class="w-6 h-6 text-blue-navy" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg></a>
+												{% else %}
+													<a href="{% url 'login' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log In</a>
+
+													<a href="{% url 'signup' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Create Account</a>
+												{% endif %}
+											</div>
 										</div>
 									</div>
 								</div>
-								<div class="flex flex-row justify-start sm:invisible md:visible md:ml-10 md:pr-4 md:space-x-8">
-									<div class="flex flex-row justify-start items-center m-2 p-2">
-										<div class="mx-4"><a id="homelink" href="{% url 'home' %}" class="font-medium text-gray-500 hover:text-gray-900">Home</a></div>
 
-										<div class="mx-4"><a id="educationlink" href="{% url 'education' %}" class="font-medium text-gray-500 hover:text-gray-900">Education</a></div>
-
-										<div class="mx-4"><a id="communitylink" href="{% url 'community' %}" class="font-medium text-gray-500 hover:text-gray-900">Community</a></div>
-
-										{% if user.is_authenticated %}
-											<div class="mx-4 w-32"><a href="{% url 'logout' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log out</a></div>
-
-										<!--Show username and link to profile if logged in
-										Show "Profile" if logged in but profile is left blank-->
-											<div class="mx-4 pr-2"><a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-gray-900 hover:bg-gray-50" role="menuitem">
-												{% if user.profile.name == "" %}
-													Profile
-												{% else %}
-													{{ user.profile.name }}
-												{% endif %}
-												<svg class="w-6 h-6 text-blue-navy" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg></a>
-											</div>
-
-										{% else %}
-											<div class="mx-4"><a href="{% url 'login' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Log in</a></div>
-
-											<div class="mx-4"><a href="{% url 'signup' %}" class="font-medium text-abiomed-teal hover:text-blue-royal">Create account</a></div>
-										{% endif %}
-									</div>
-								</div>
-							</nav>
-						</div>
-
-						<!--Mobile menu, show/hide based on menu open state-->
-
-						<div id="mobile_menu" class="absolute top-0 inset-x-0 p-2 transition transform origin-top-right hidden">
-							<div class="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
-								<div class="px-5 pt-4 flex items-center justify-between">
-									<div>
-										<img class="h-8 w-auto" src="{% static 'images/Abiomed Logo 1920x1082.png'%}" alt="Abiomed logo">
-									</div>
-									<div class="-mr-2">
-										<button id="close_menu" type="button" class="close_menu bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-royal">
-											<span class="sr-only">Close main menu</span>
-											<!-- Heroicon name: x -->
-											<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-										</button>
-									</div>
-								</div>
-								<div role="menu" aria-orientation="vertical" aria-labelledby="main-menu">
-									<div class="px-2 pt-2 pb-3 space-y-1" role="none">
-										<a id="homelink2" href="{% url 'home' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Home</a>
-
-										<a id="educationlink2" href="{% url 'education' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Education</a>
-
-										<a id="communitylink2" href="{% url 'community' %}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50" role="menuitem">Community</a>
-									</div>
-									<div role="none">
-										{% if user.is_authenticated %}
-											<a href="{% url 'logout' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log Out</a>
-
-											<a href="{% url 'profile' %}" class="flex px-3 py-2 rounded-md text-base font-medium text-blue-navy hover:text-blue-royal hover:bg-gray-50" role="menuitem">{{ user.profile.name }}<svg class="w-6 h-6 text-blue-navy" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z" clip-rule="evenodd"></path></svg></a>
-										{% else %}
-											<a href="{% url 'login' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Log In</a>
-
-											<a href="{% url 'signup' %}" class="block w-full px-5 py-3 text-center font-medium text-abiomed-teal bg-gray-50 hover:bg-gray-100" role="menuitem">Create Account</a>
-										{% endif %}
-									</div>
-								</div>
+								{% block content %}
+									<!--this is where page content will go in templates-->
+								{% endblock %}
 							</div>
 						</div>
-						
-						{% block content %}
-							<!--this is where page content will go in templates-->
-						{% endblock %}
 					</div>
-				</div>
-			</div>
-		{% endblock body %}
-	</body>
-	
-	<footer class="absolute inset-x-0 p-2 bg-gradient-to-r from-blue-navy via-blue-light to-blue-navy mt-4 p-8">
-		<div class="grid grid-cols-3 gap-5">
-			<div class="flex flex-col w-36">
-				<img class="pb-2" src="{% static 'images/AbioLogo_TAGLINE_White.png' %}" />
-				<p class="text-white text-left text-xs ml-4"><span>&#169;</span>2021 Abiomed, Inc.</p>
-				<p class="text-white text-left text-xs ml-4">All rights reserved</p>
-			</div>
-			<div>
-				<p class="text-white text-left underline"><strong>Site Map</strong></p>
-				<p class="text-white text-left text-xs"><a href="{% url 'home' %}">Home</a></p>
-				<p class="text-white text-left text-xs"><a href="{% url 'education' %}">Education</a></p>
-				<p class="text-white text-left text-xs"><a href="{% url 'community' %}">Community</a></p>
-			</div>		
-			<div>
-				<p class="text-white text-left underline"><strong>Company</strong></p>
-				<p class="text-white text-left text-xs"><a href="http://www.abiomed.com">Abiomed.com</a></p>
-				<p class="text-white text-left text-xs"><a href="http://www.impella.com">Impella.com</a></p>
-				<p class="text-white text-left text-xs"><a href="http://www.heartrecovery.com">HeartRecovery.com</a></p>
-				<p class="text-white text-left text-xs"><a href="http://www.camppci.org">CAMPpci.org</a></p>
-			</div>		
+				{% endblock body %}
+			</body>
 		</div>
-	</footer>
+
+		<footer class="absolute inset-x-0 p-2 bg-gradient-to-r from-blue-navy via-blue-light to-blue-navy mt-4 p-8">
+			<div class="grid grid-cols-3 gap-5">
+				<div class="flex flex-col w-36">
+					<img class="pb-2" src="{% static 'images/AbioLogo_TAGLINE_White.png' %}" alt="Abiomed Logo"/>
+					<p class="text-white text-left text-xs ml-4"><span>&#169;</span>2021 Abiomed, Inc.</p>
+					<p class="text-white text-left text-xs ml-4">All rights reserved</p>
+				</div>
+				<div>
+					<p class="text-white text-left underline"><strong>Site Map</strong></p>
+					<p class="text-white text-left text-xs"><a href="{% url 'home' %}">Home</a></p>
+					<p class="text-white text-left text-xs"><a href="{% url 'education' %}">Education</a></p>
+					<p class="text-white text-left text-xs"><a href="{% url 'community' %}">Community</a></p>
+				</div>		
+				<div>
+					<p class="text-white text-left underline"><strong>Company</strong></p>
+					<p class="text-white text-left text-xs"><a href="http://www.abiomed.com">Abiomed.com</a></p>
+					<p class="text-white text-left text-xs"><a href="http://www.impella.com">Impella.com</a></p>
+					<p class="text-white text-left text-xs"><a href="http://www.heartrecovery.com">HeartRecovery.com</a></p>
+					<p class="text-white text-left text-xs"><a href="http://www.camppci.org">CAMPpci.org</a></p>
+				</div>		
+			</div>
+		</footer>
+	</div>
 	{% block javascript %}
 	{% endblock %}
 </html>

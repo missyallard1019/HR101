@@ -1,14 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
 	
 	let topics = document.querySelectorAll('.show_topic_posts');
+	
 	topics.forEach((btn) => {
 		btn.addEventListener("click", (event) => {
 			togglePosts(btn.id);
 		});
 	});
 	
-	$('#edit_post').click(function() {
-		toggleEditPost();
+	let edits = document.querySelectorAll('.show_edit_form');
+	
+	edits.forEach((btn) => {
+		btn.addEventListener("click", (event) => {
+			toggleEditPost(btn.id);
+		});
 	});
 
 });
@@ -17,7 +22,6 @@ function togglePosts(topic_id) {
 	var topic = document.getElementById(topic_id);
 	var topicposts = document.getElementById(topic.id + "posts");
 	var replyblock = document.getElementById(topic.id + "reply");
-	var reply = document.getElementById("reply_field");
 	
 	if (topicposts.style.display === "none") {
 		topicposts.style.display = "block";
@@ -29,14 +33,13 @@ function togglePosts(topic_id) {
 	}
 }
 
-function toggleEditPost() {
-	var post = document.getElementById("current_post");
-	var form = document.getElementById("edit_post_form");
-	var reply = document.getElementById("reply_field");
-	var old_comment = $("#post_message").val();
+function toggleEditPost(post_id) {
+	var post = document.getElementById("current_post" + post_id);
+	var form = document.getElementById("edit_post_form" + post_id);
+	var old_comment = $("#post_message" + post_id).val();
 
 	post.style.display = "none";
 	form.style.display = "block";
-	reply.style.display = "none";
+	$(".reply_form").hide();
 	$(".placeholder_field").val(old_comment);
 }

@@ -9,10 +9,9 @@ def discussions(request):
 
 	if request.method == 'POST':
 		post_id = request.POST.get('post_id')
-		print(post_id)
 	
 		if post_id == None:
-			form = PostForm(request.POST)
+			form = PostForm(request.POST, auto_id=False)
 			topic_id_list = request.POST.getlist('topic_id')
 			topic_id = topic_id_list[0]
 
@@ -26,14 +25,14 @@ def discussions(request):
 				return redirect('community')
 		else:
 			current_post = Post.objects.get(id=post_id)
-			form = PostForm(request.POST or None, instance=current_post)
+			form = PostForm(request.POST or None, instance=current_post, auto_id=False)
 			
 			if form.is_valid():
 				form.save()
 				return redirect('community')
 
 	else:
-		form = PostForm()
+		form = PostForm(auto_id=False)
 	
 	return render(request, 'community.html', {'boards': boards, 'form': form})
 
@@ -61,27 +60,36 @@ def search(request):
 	post_results = Post.objects.filter(message__icontains=query)
 	for p in post_results:
 		p_topic = p.topic
-		print(p_topic)
 		if p_topic in results:
 			print("already exists")
 		else:
 			results.append(p_topic)
 
 	if request.method == 'POST':
-		form = PostForm(request.POST)
-		topic_id_list = request.POST.getlist('topic_id')
-		topic_id = topic_id_list[0]
-		
-		topic = Topic.objects.get(id=topic_id)
-		
-		if form.is_valid():
-			post = form.save(commit=False)
-			post.topic = topic
-			post.created_by = request.user
-			post.save()
-			return redirect('community')
+		post_id = request.POST.get('post_id')
+		if post_id == None:
+			form = PostForm(request.POST, auto_id=False)
+			topic_id_list = request.POST.getlist('topic_id')
+			topic_id = topic_id_list[0]
+
+			topic = Topic.objects.get(id=topic_id)
+
+			if form.is_valid():
+				post = form.save(commit=False)
+				post.topic = topic
+				post.created_by = request.user
+				post.save()
+				return redirect('community')
+		else:
+			current_post = Post.objects.get(id=post_id)
+			form = PostForm(request.POST or None, instance=current_post)
+			
+			if form.is_valid():
+				form.save()
+				return redirect('community')
 	else:
-		form = PostForm()
+		form = PostForm(auto_id=False)
+		
 	return render(request, 'search_results.html', {'results': results, 'query': query, 'boards': boards, 'posts': posts, 'topics': topics, 'form': form})
 
 

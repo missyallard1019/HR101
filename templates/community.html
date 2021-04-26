@@ -10,7 +10,7 @@
 			<div class="text-center divide-y-2 divide-currentColor sm:divide-w-12 sm:mx-18 md:divide-w-48 md:mx-36">
 				<div class="text-center">
 					<p class="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-blue-navy sm:text-4xl">Join the Conversation</p>
-					<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Heart recovery 101 is home to an amzing community of patients, family, friends and caregivers who are here to share their experiences with heart disease and support one another. The community also includes nurses, physicians, and Abiomed staff to help answer your questions. Browse the discussion board topics, join a support group, or send us your questions directly!</p>
+					<p class="m-2 max-w-2xl text-xl text-gray-500 lg:mx-auto">Heart recovery 101 is home to an amazing community of patients, family, friends and caregivers who are here to share their experiences with heart disease and support one another. The community also includes nurses, physicians, and Abiomed staff to help answer your questions. Browse the discussion board topics, join a support group, or send us your questions directly!</p>
 				</div>
 				<div><br/></div>
 				</div>
@@ -61,15 +61,13 @@
 								{% for post in topic.posts.all %}
 
 									{% if forloop.first %}
-										<div id="topic{{ topic.id }}" class="show_topic_posts btn border-2 border-abiomed-teal rounded-lg p-2 m-1 hover:bg-abiomed-teal-light">
+										<div id="topic{{ topic.id }}" class="show_topic_posts btn border-2 border-abiomed-teal rounded-lg p-2 m-1 hover:bg-abiomed-teal-light" ><!--add onclick="togglePosts('topic{{ topic.id }}');" for single click fix-->
 											<div class="flex text-black">
-												<svg class="w-6 h-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+												<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
 												<p><strong class="text-xl">"{{ topic.subject }}"</strong> by <strong> {{ topic.starter.username }}</strong> at {{ topic.last_updated }}</p>
 											</div>
 											<div>
-												<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg">
-													{{ post.message }}
-												</div>
+												<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg" style='white-space:pre-line'>{{ post.message }}</div>
 												<small>{{ topic.posts.count }} Comments</small>
 											</div>
 										</div>
@@ -80,25 +78,23 @@
 									{% for post in topic.posts.all %}
 										{% if not forloop.first %}
 											<div class="flex mx-6">
-												<svg class="w-6 h-6 mx-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+												<svg class="w-6 h-6 mx-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
 											</div>
 											{% if post.created_by == user %}
 												<div class="mx-6">
 													<strong>{{ post.created_by.username }}</strong>
 													<small>{{ post.created_at }}</small>
-													<div id="current_post" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
-														{{ post.message }}
-														<br>
-															<button id="edit_post" name="post_id" value="{{ post.id }}" class="flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Edit Post</button>
+													<div id="current_post{{ post.id }}" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg" style='white-space:pre-line'>{{ post.message }}
+														<button id="{{ post.id }}" name="post_id" value="{{ post.id }}" class="show_edit_form btn flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Edit Post</button>
 													</div>
-													<div id="edit_post_form" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg hidden">
+													<div id="edit_post_form{{ post.id }}" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg hidden">
 														<form method="post" novalidate>
 															{% csrf_token %}
 															<div class="w-auto">
-																{% include 'includes/form.html' %}
-																<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
-																<input class="hidden" name="post_id" id="post_id" value="{{ post.id }}" />
-																<input class="hidden" name="post_message" id="post_message" value="{{ post.message }}" />
+																{% include 'includes/singlefieldform.html' %}
+																<input type="hidden" name="topic_id" value="{{ topic.id }}" />
+																<input class="hidden" name="post_id" id="post_id{{ post.id }}" value="{{ post.id }}" />
+																<input class="hidden" name="post_message" id="post_message{{ post.id }}" value="{{ post.message }}" />
 																<div class="flex justify-center pt-0 pb-4">
 																	<button type="submit" class="flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Save Changes</button>
 																</div>
@@ -111,9 +107,7 @@
 												<div class="mx-6">
 													<strong>{{ post.created_by.username }}</strong>
 													<small>{{ post.created_at }}</small>
-													<div id="current_post" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
-														{{ post.message }}
-													</div>
+													<div id="current_post{{ post.id }}" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg" style='white-space:pre-line'>{{ post.message }}</div>
 												</div>
 											{% endif %}
 										{% endif %}
@@ -124,9 +118,9 @@
 									{% if user.is_authenticated %}
 										<form method="post" novalidate>
 											{% csrf_token %}
-											<div id="reply_field" class="w-auto">
-												{% include 'includes/form.html' %}
-												<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
+											<div class="w-auto">
+												{% include 'includes/singlefieldform.html' %}
+												<input type="hidden" name="topic_id" id="topic_id{{ topic.id }}" value="{{ topic.id }}" />
 												<div class="flex justify-center pt-0 pb-4">
 													<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Reply</button>
 												</div>

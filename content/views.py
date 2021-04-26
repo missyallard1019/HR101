@@ -40,10 +40,3 @@ def course(request, index):
 		form = ProgressUpdateForm()
 	
 	return render(request, 'course.html', {'chapter': chapter, 'reviews': reviews, 'progress': progress, 'form': form})
-
-@login_required
-def course2(request):
-	chapters = Chapter.objects.all()
-	reviews = Review.objects.all()
-	
-	return render(request, 'course2.html', {'chapters': chapters, 'reviews': reviews})

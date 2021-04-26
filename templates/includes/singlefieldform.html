@@ -21,9 +21,10 @@
 				
 			<div>
 				{% if form.is_bound %}
+					
 					{% if field.errors %}
 						<div class="justify-start">
-							{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-red" %}
+							{% render_field field class="placeholder_field flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-red" style='white-space:pre-line'%}
 							{% for error in field.errors %}
 								<p class="font-medium tracking-wide text-red text-xs mt-1 ml-1">{{ error }}</p>
 							{% endfor %}
@@ -31,14 +32,14 @@
 						
 					{% else %}
 						<div class="justify-start">
-							{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-gray-300" %}
+							{% render_field field class="placeholder_field flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-gray-300" style='white-space:pre-line'%}
 						</div>
 						
 					{% endif %}
 
 				{% else %}
 					<div class="flex justify-start">
-						{% render_field field class="flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-gray-300" %}
+						{% render_field field class="placeholder_field flex justify-right text-sm sm:text-base relative w-full border rounded placeholder-gray-400 focus:border-blue-royal focus:outline-none py-2 pr-2 pl-2 border-gray-300" style='white-space:pre-line'%}
 					</div>
 					
 				{% endif %}

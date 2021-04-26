@@ -70,19 +70,6 @@ class ProfileTests(TestCase):
 		url = reverse('profile')
 		response = self.client.post(url, {})
 		self.assertEquals(response.status_code, 200)
-
-	def test_profile_invalid_post_data_empty_fields(self):
-		url = reverse('profile')
-		data = {
-			'name': '',
-			'age': '',
-			'location': '',
-			'bio': ''
-		}
-		response = self.client.post(url, data)
-		john_profile = Profile.objects.get(user_id=self.user.id)
-		self.assertEquals(response.status_code, 200)
-		self.assertEquals(john_profile.name, '')
 		
 	def test_contains_form(self):
 		url = reverse('profile')

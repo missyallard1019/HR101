@@ -50,7 +50,6 @@
 				<p class="text-lg text-shadow-md">{{ board.description }}</p>
 				<div>
 					{% for topic in board.topics.all %}
-						{% if topic != }
 						<div class="bg-abiomed-teal-pale h-auto w-full m-1 p-2 rounded-lg text-gray-900 text=lg justify-center">
 
 							{% for post in topic.posts.all %}
@@ -65,7 +64,7 @@
 											<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg">
 												{{ post.message }}
 											</div>
-											<small>{{ topic.posts.count }} Comments</small>
+											<small>{{ topic.posts.count|add:'-1' }} Comments</small>
 										</div>
 									</div>
 								{% endif %}
@@ -84,8 +83,37 @@
 												{{ post.message }}
 												<br>
 												{% if post.created_by == user %}
-													<div class="flex justify-right">
-														<div class=" flex justify-right rounded-md shadow w-14 h-8 items-center mt-4 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4"><a href="#">Edit</a></div>
+													<div class="mx-6">
+														<strong>{{ post.created_by.username }}</strong>
+														<small>{{ post.created_at }}</small>
+														<div id="current_post" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
+															{{ post.message }}
+															<br>
+															<button id="edit_post" name="post_id" value="{{ post.id }}" class="flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Edit Post</button>
+														</div>
+														<div id="edit_post_form" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg hidden">
+															<form method="post" novalidate>
+																{% csrf_token %}
+																<div class="w-auto">
+																	{% include 'includes/form.html' %}
+																	<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
+																	<input class="hidden" name="post_id" id="post_id" value="{{ post.id }}" />
+																	<input class="hidden" name="post_message" id="post_message" value="{{ post.message }}" />
+																	<div class="flex justify-center pt-0 pb-4">
+																		<button type="submit" class="flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Save Changes</button>
+																	</div>
+
+																</div>
+															</form>
+														</div>
+													</div>
+												{% else %}
+													<div class="mx-6">
+														<strong>{{ post.created_by.username }}</strong>
+														<small>{{ post.created_at }}</small>
+														<div id="current_post" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
+															{{ post.message }}
+														</div>
 													</div>
 												{% endif %}
 											</div>
@@ -136,40 +164,53 @@
 							{% for post in topic.posts.all %}
 
 								{% if forloop.first %}
-									<div id="topic{{ topic.id }}" class="show_topic_posts btn border-2 border-abiomed-teal rounded-lg p-2 m-1 hover:bg-abiomed-teal-light">
+									<div id="topic{{ topic.id }}" class="show_topic_posts btn border-2 border-abiomed-teal rounded-lg p-2 m-1 hover:bg-abiomed-teal-light hover:shadow-lg">
 										<div class="flex text-black">
-											<svg class="w-6 h-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+											<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
 											<p><strong class="text-xl">"{{ topic.subject }}"</strong> by <strong> {{ topic.starter.username }}</strong> at {{ topic.last_updated }}</p>
 										</div>
 										<div>
-											<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg">
-												{{ post.message }}
-											</div>
-											<small>{{ topic.posts.count }} Comments</small>
+											<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg" style='white-space:pre-line'>{{ post.message }}</div>
+											<small>{{ topic.posts.count|add:'-1' }} Comments</small>
 										</div>
 									</div>
 								{% endif %}
 							{% endfor %}
 
-							<div id="topic{{ topic.id }}posts" class="topic_posts hidden">
+							<div id="topic{{ topic.id }}posts" class="topic_posts">
 								{% for post in topic.posts.all %}
 									{% if not forloop.first %}
-										<div class="flex mx-6">
-											<svg class="w-6 h-6 mx-6" alt="{{ post.created_by.username }}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
-										</div>
-										<div class="mx-6">
-											<strong>{{ post.created_by.username }}</strong>
-											<small>{{ post.created_at }}</small>
-											<div class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg">
-												{{ post.message }}
-												<br>
-												{% if post.created_by == user %}
-													<div class="flex justify-right">
-														<div class=" flex justify-right rounded-md shadow w-14 h-8 items-center mt-4 px-3 py-3 border border-transparent text-base font-medium rounded-md text-white bg-abiomed-teal hover:bg-blue-royal md:py-4 md:text-md md:px-4"><a href="#">Edit</a></div>
-													</div>
-												{% endif %}
+										{% if post.created_by == user %}
+											<div class="mx-6">
+												<svg class="flex w-6 h-6 mx-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+												<strong>{{ post.created_by.username }}</strong>
+												<small>{{ post.created_at }}</small>
+												<div id="current_post{{ post.id }}" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg" style='white-space:pre-line'>{{ post.message }}
+													<button id="{{ post.id }}" name="post_id" value="{{ post.id }}" class="show_edit_form btn flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Edit Post</button>
+												</div>
+												<div id="edit_post_form{{ post.id }}" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg hidden">
+													<form method="post" novalidate>
+														{% csrf_token %}
+														<div class="w-auto">
+															{% include 'includes/singlefieldform.html' %}
+															<input type="hidden" name="topic_id" value="{{ topic.id }}" />
+															<input class="hidden" name="post_id" id="post_id{{ post.id }}" value="{{ post.id }}" />
+															<input class="hidden" name="post_message" id="post_message{{ post.id }}" value="{{ post.message }}" />
+															<div class="flex justify-center pt-0 pb-4">
+																<button type="submit" class="flex justify-center rounded-md shadow w-auto h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Save Changes</button>
+															</div>
+
+														</div>
+													</form>
+												</div>
 											</div>
-										</div>
+										{% else %}
+											<div class="mx-6">
+												<strong>{{ post.created_by.username }}</strong>
+												<small>{{ post.created_at }}</small>
+												<div id="current_post{{ post.id }}" class="bg-white h-auto w-7/8 my-2 p-2 rounded-lg shadow-lg text=lg" style='white-space:pre-line'>{{ post.message }}</div>
+											</div>
+										{% endif %}
 									{% endif %}
 								{% endfor %}
 							</div>
@@ -179,8 +220,8 @@
 									<form method="post" novalidate>
 										{% csrf_token %}
 										<div class="w-auto">
-											{% include 'includes/form.html' %}
-											<input type="hidden" name="topic_id" id="topic_id" value="{{ topic.id }}" />
+											{% include 'includes/singlefieldform.html' %}
+											<input type="hidden" name="topic_id" id="topic_id{{ topic.id }}" value="{{ topic.id }}" />
 											<div class="flex justify-center pt-0 pb-4">
 												<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Reply</button>
 											</div>
