@@ -11,9 +11,9 @@
 		
 	</head>
 
-	<div class="h-screen">
-		<div class="mb-auto">
-			<body>
+	<div class="min-h-screen flex-col">
+		<div class="mb-auto flex-grow-1">
+			<body class="flex-grow mb-auto">
 				{% block body %}
 					<!--Primary Nav-->
 					<div class="relative bg-white overflow-hidden">
@@ -114,7 +114,7 @@
 			</body>
 		</div>
 
-		<footer class="absolute inset-x-0 p-2 bg-gradient-to-r from-blue-navy via-blue-light to-blue-navy mt-4 p-8">
+		<footer class="flex-shrink-0 absolute inset-x-0 p-2 bg-gradient-to-r from-blue-navy via-blue-light to-blue-navy mt-4 p-8 pin-b">
 			<div class="grid grid-cols-3 gap-5">
 				<div class="flex flex-col w-36">
 					<img class="pb-2" src="{% static 'images/AbioLogo_TAGLINE_White.png' %}" alt="Abiomed Logo"/>

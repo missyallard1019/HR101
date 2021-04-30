@@ -68,13 +68,13 @@
 											</div>
 											<div>
 												<div class="bg-white text-black h-auto w-full m-1 p-2 rounded-lg shadow-lg text=lg" style='white-space:pre-line'>{{ post.message }}</div>
-												<small>{{ topic.posts.count }} Comments</small>
+												<small>{{ topic.posts.count|add:'-1' }} Comments</small>
 											</div>
 										</div>
 									{% endif %}
 								{% endfor %}
 								
-								<div id="topic{{ topic.id }}posts" class="topic_posts hidden">
+								<div id="topic{{ topic.id }}posts" class="topic_posts w-full hidden">
 									{% for post in topic.posts.all %}
 										{% if not forloop.first %}
 											<div class="flex mx-6">
@@ -114,17 +114,14 @@
 									{% endfor %}
 								</div>
 								
-								<div id="topic{{ topic.id }}reply" class="reply_form hidden">
+								<div id="topic{{ topic.id }}reply" class="reply_form w-full hidden">
 									{% if user.is_authenticated %}
 										<form method="post" novalidate>
 											{% csrf_token %}
-											<div class="w-auto">
-												{% include 'includes/singlefieldform.html' %}
-												<input type="hidden" name="topic_id" id="topic_id{{ topic.id }}" value="{{ topic.id }}" />
-												<div class="flex justify-center pt-0 pb-4">
-													<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Reply</button>
-												</div>
-												
+											{% include 'includes/singlefieldform.html' %}
+											<input type="hidden" name="topic_id" id="topic_id{{ topic.id }}" value="{{ topic.id }}" />
+											<div class="flex justify-center w-full pt-0 pb-4">
+												<button type="submit" class="flex justify-center rounded-md shadow w-24 h-8 items-center mt-2 pb-6 border border-transparent text-base font-medium text-white bg-abiomed-teal hover:bg-blue-royal py-4 md:text-lg px-2">Reply</button>
 											</div>
 										</form>
 									{% else %}
